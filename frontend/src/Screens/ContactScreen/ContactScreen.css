@@ -1,0 +1,9 @@
+.contact-screens {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color:#111B21;
+}

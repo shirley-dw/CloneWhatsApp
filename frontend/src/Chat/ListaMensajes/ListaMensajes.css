@@ -1,0 +1,80 @@
+/* Variables de Chat */
+:root {
+  --ColorText: #888;
+}
+
+.container-msj {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-top: 0;
+  margin-top: 100px;
+
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--ColorText);
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+/*  Responsive MediaQuery */
+
+@media (max-widht: 2000px) {
+  .container-msj {
+    height: 100vh;
+    margin-top: 100px;
+  }
+}
+
+@media (max-widht: 1200px) {
+  .container-msj {
+    height: 100vh;
+    position: absolute;
+    bottom: 70px;
+
+
+  }
+}
+
+/* Tablet */
+@media (max-widht: 992px) {
+  .container-msj {
+    height: 100vh;
+    margin-top: 150px;
+  }
+}
+
+/* Mobile horizontal*/
+@media (max-widht: 768px) {
+  .container-msj {
+    height: 100vh;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-widht: 321px) and (max-widht: 420px) {
+  .container-msj {
+    height: 100vh;
+    margin-top: 130px;
+  }
+
+}
+
+/* Phone */
+
+@media (max-widht: 320px) {
+  .container-msj {
+    height: 100vh;
+    margin-bottom: 50%;
+  }
+}

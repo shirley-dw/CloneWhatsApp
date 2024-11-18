@@ -1,0 +1,344 @@
+.info-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background: rgb(30, 29, 55);
+    background: linear-gradient(90deg, rgba(30, 29, 55, 1) 0%, rgba(31, 74, 37, 1) 52%, rgba(8, 67, 79, 1) 100%);
+
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+ .info-header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 10px; 
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.profile {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 5px solid #06584f;
+
+}
+
+.profile-name {
+    font-size: 30px;
+    color: white;
+}
+
+.status-text {
+    font-size: 20px;
+    color: #e5ddd5;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.options .icon-container {
+    background-image: linear-gradient(to right, #58ecb195 0%, #80837fa3 51%, #58ecb195 100%);
+    margin: 10px;
+    padding: 15px 30px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 2px #2b2a2ace;
+    border-radius: 10px;
+    display: flex;
+    border: 1px solid white;
+    cursor: pointer;
+  
+   
+}
+.options .icon-container:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.options .icon-container .opciones-icons {
+font-size: 30px;
+}
+
+.back-icon {
+    font-size: 30px;
+    color: #e5ddd5;
+    font-weight: 900;
+
+}
+
+.back-icon:hover {
+    color: #08ff6f;
+    cursor: pointer;
+}
+
+.deco {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40vw;
+    
+}
+
+.deco .avanced {
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    align-items: center;
+    font-size: 14px;
+    gap: 10px;
+    border-bottom: #376148 solid 1px;
+    margin-right: 10px;
+   
+}
+
+.deco .avanced:hover {
+    background-color: #06584f;
+}
+
+.deco .avanced .iconos {
+    color: #fff9f9;
+    font-size: 20px;
+}
+
+.deco .avanced p {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+}
+
+.deco .avanced span {
+    color: #919191;
+    font-size: 12px;
+    font-weight: 300;
+    width: 300px;
+}
+
+.info-screen::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+}
+
+.infoscreen::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.info-screen::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+
+.info-screen::-webkit-scrollbar-thumb:hover {
+    background: #111B21;
+}
+/* Media Queries */
+
+/* Media Queries */
+
+/* Desktop / TV / Laptop */
+@media (max-width: 2000px) {
+    .info-screen {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .info-screen .info-container .info {
+        width: 70%;
+    }
+    .deco .avanced .iconos {
+        font-size: 20px;
+    }
+    .profile {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 5px solid #06584f;
+    }
+    
+    .profile-name {
+        font-size: 30px;
+        color: white;
+        align-items: baseline;
+        margin-left: 20px;
+    }
+    
+    .status-text {
+        font-size: 20px;
+        color: #e5ddd5;
+    }
+    
+}
+@media (max-width: 1200px) {
+      .info-screen {
+            height: 100vh;
+            width: 100%;
+        }
+        .info-screen .info-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .info-screen .info-container .info {
+            width: 40%;
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+       
+          
+        .deco .avanced .iconos {
+            font-size: 20px;
+        }
+        .profile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid #06584f;
+        }
+        
+        .profile-name {
+            font-size: 30px;
+            color: white;
+            align-items: baseline;
+            left: -30px;
+           
+        }
+        
+        .status-text {
+            font-size: 20px;
+            color: #e5ddd5;
+        }
+        
+    }
+/* Tablet */
+@media (max-width: 992px) {
+    .info-screen {
+        height: 100vh;
+        width: 100%;
+    }
+    .info-screen .info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .info-screen .info-container .info {
+        width: 90%;
+    }
+    .deco .avanced .iconos {
+        font-size: 18px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .info-screen {
+        height: 100vh;
+        width: 100%;
+    }
+    .info-screen .info-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .info-screen .info-container .info {
+        width: 100%;
+    }
+    .deco .avanced .iconos {
+        font-size: 16px;
+    }
+}
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .info-screen{
+        width: 100%;
+    }
+    .info-container {
+        width: 100%;
+    }
+    .info-header {
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .info {
+        width: 100%;
+    }
+    .deco .avanced .iconos {
+        font-size: 16px;
+    }
+    .profile {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        border: 5px solid #06584f;
+    
+    }
+    
+    .profile-name {
+        font-size: 25px;
+        color: white;
+    }
+    
+    .status-text {
+        font-size: 15px;
+        color: #e5ddd5;
+    }
+    .deco .avanced p {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .deco .avanced span {
+        color: #919191;
+        font-size: 12px;
+        font-weight: 300;
+        width: 300px;
+    }
+    
+
+}

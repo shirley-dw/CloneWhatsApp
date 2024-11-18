@@ -1,0 +1,28 @@
+.header-register {
+    background-color: rgb(0, 168, 132);
+    padding: 10px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+}
+
+.header-container-register {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.header-title {
+    margin: 0;
+    font-family: Open Sans, sans-serif;
+    font-size: 1rem;
+}
+
+.logo-register {
+    width: 40px;
+    height: 40px;
+}

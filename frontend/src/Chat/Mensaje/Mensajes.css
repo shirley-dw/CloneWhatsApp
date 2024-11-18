@@ -1,0 +1,76 @@
+/* Style mensajes*/
+
+.content {
+  display: flex;
+  margin: 10px 0;
+
+}
+
+.mensaje {
+  max-width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.texto {
+  margin: 0;
+
+}
+
+.content-lower {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  color: #999;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .content-lower {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-widht: 321px) and (max-widht: 420px) {
+
+  .content {
+    margin: 5px 0;
+  }
+
+  .content-lower {
+    font-size: 10px;
+
+  }
+
+  .mensaje {
+    padding: 10px;
+    width: 50%;
+    height: 30px;
+  }
+
+  .texto {
+    font-size: 10px;
+  }
+}
+
+/* Phone */
+@media (max-width: 320px) {
+  .content-lower {
+    font-size: 10px;
+
+  }
+
+  .content {
+    margin: 5px 0;
+  }
+
+  .mensaje {
+    padding: 5px;
+    width: 70%;
+  }
+
+  .texto {
+    font-size: 13px;
+  }
+}
