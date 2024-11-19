@@ -1,4 +1,5 @@
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const phoneRegex = /^[0-9]{10,15}$/; // Ejemplo de expresión regular para el teléfono
 
 export const verifyString = (field_name, field_value) => {
     if (!(typeof(field_value) === 'string')) {
@@ -7,24 +8,27 @@ export const verifyString = (field_name, field_value) => {
             message: field_name + ' debe ser un texto',
         };
     }
+    return null;  // Devuelve null si la validación pasa
 };
 
 export const verifyMinLength = (field_name, field_value, minLength) => {
     if (!(field_value.length >= minLength)) {
         return {
             error: 'MIN_LENGTH_VALIDATION',
-            message: field_name + ' debe tener como minimo ' + minLength + ' caracteres',
+            message: field_name + ' debe tener como mínimo ' + minLength + ' caracteres',
         };
     }
+    return null;  // Devuelve null si la validación pasa
 };
 
-export const verifyNumber = (field_name, field_value) => {
-    if (!(typeof field_value === 'number')) {
+export const verifyPhone = (field_name, field_value) => {
+    if (!phoneRegex.test(field_value)) {
         return {
-            error: 'NUMBER_VALIDATION',
-            message: field_name + ' debe ser un numero',
+            error: 'PHONE_VALIDATION',
+            message: field_name + ' no es un número de teléfono válido',
         };
     }
+    return null;  // Devuelve null si la validación pasa
 };
 
 export const verifyEmail = (field_name, field_value) => {
@@ -34,4 +38,5 @@ export const verifyEmail = (field_name, field_value) => {
             message: field_name + ' no cumple el formato email'
         };
     }
+    return null;  // Devuelve null si la validación pasa
 };

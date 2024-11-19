@@ -2,8 +2,9 @@
 
 import mongoDB from "mongoose"
 import User from "../models/user.model.js"
+import Contacto from "../models/contact.model.js"
 
-const MONGO_URL = 'mongodb://localhost:27017/TN_PWA_PRUEBA_MONGOOSE'
+const MONGO_URL = 'mongodb://localhost:27017/CLONE-WHATSAPP'
 
 //.connect se utiliza para establecer una conexion con la DB
 //Recibe un connection_string (url de la DB) y un objeto de configuracion
