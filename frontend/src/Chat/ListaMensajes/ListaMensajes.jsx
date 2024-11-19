@@ -11,7 +11,7 @@ const ListaMensajes = ({ mensaje }) => {
   const [contacto, setContacto] = useState();
 // Fetching
   useEffect(() => {
-    fetch("/mensajeria.json")
+    fetch("/http://localhost:3000/api/auth/contacts")
       .then((response) => response.json())
       .then((data) => {
         const contactoEncontrado = data.find(

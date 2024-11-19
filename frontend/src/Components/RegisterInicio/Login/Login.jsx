@@ -48,7 +48,7 @@ const Login = () => {
             } else {
                 console.log('Inicio de sesión exitoso'); 
                 sessionStorage.setItem('access-token', data.data.access_token);  // Agrego manejo de sessionStorage 
-                navigate('/ContactScreen'); // Redirige a la página de inicio después del inicio de sesión exitoso
+                navigate('/mensaje/1'); // Redirige a ContactScreen después del inicio de sesión exitoso
             }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);

@@ -1,36 +1,44 @@
-// Importo librerias
-import React, { useState } from 'react';
-// Importo estilos
-import './ContactScreen.css'
-// Importo componentes
-import ListaContactos from '../../Components/Contactos/ListaContactos/ListaContactos.jsx'
-import ContactoFooter from '../../Components/Contactos/ContactoFooter/ContactoFooter.jsx'
-import ContactoHeader from '../../Components/Contactos/ContactoHeader/ContactoHeader.jsx';
-
+import React, { useState, useEffect } from "react";
+import ListaContactos from "../../Components/Contactos/ListaContactos/ListaContactos.jsx";
+import ContactoFooter from "../../Components/Contactos/ContactoFooter/ContactoFooter.jsx";
+import ContactoHeader from "../../Components/Contactos/ContactoHeader/ContactoHeader.jsx";
 
 const ContactScreen = () => {
-    // Funcion que cambia el estado
     const [search, setSearch] = useState('');
-    // Funcion handleSearchChange que cambia el estado
-    const handleSearchChange = (value) => {
-        setSearch(value)
-    }
+    const [contactos, setContactos] = useState([]);
 
-    // Render
+    const handleSearchChange = (value) => {
+        setSearch(value);
+    };
+
+    useEffect(() => {
+        const fetchContactos = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/contacts'); 
+                if (!response.ok) {
+                    throw new Error('Error al obtener los contactos');
+                }
+                const data = await response.json();
+                console.log('Contactos recibidos:', data);
+                
+                // Extrae la matriz de contactos
+                const contactos = data.data.contacts;
+                setContactos(contactos);
+            } catch (error) {
+                console.error('Error al obtener los contactos:', error);
+            }
+        };
+
+        fetchContactos();
+    }, []);
+
     return (
         <div className="contact-screens">
-
             <ContactoHeader search={search} onSearchChange={handleSearchChange} />
-            <ListaContactos search={search} />
+            <ListaContactos search={search} contactos={contactos} />
             <ContactoFooter />
-
         </div>
-    )
-}
+    );
+};
 
 export default ContactScreen;
-
-/*  Resumen:
- Este componente muestra la pantalla de contactos y permite realizar una búsqueda en la lista de contactos. 
- También utiliza los componentes ContactoHeader, ListaContactos y ContactoFooter para mostrar la interfaz de usuario.
- */
