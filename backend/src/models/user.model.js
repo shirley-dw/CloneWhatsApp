@@ -9,10 +9,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lastMessage: {
-        type: String,
-        default: null
-    },
     email: {
         type: String,
         required: true,

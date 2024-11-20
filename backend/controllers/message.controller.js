@@ -5,71 +5,62 @@ import User from "../src/models/user.model.js";
 import { verifyString } from "../src/helpers/validations.helpers.js";
 
 // Crear un nuevo mensaje
+
+
 export const createMessageController = async (req, res) => {
-    try {
-        const { author, text, day, hour } = req.body;
-        const messageConfig = {
-            text: {
-                value: text,
-                errors: [],
-                validation: [
-                    (field_name, field_value) => verifyString(field_name, field_value)
-                ]
-            }
-        };
+  try {
+    const { authorId, text, day, hour } = req.body;
 
-        let hayErrores = false;
-        for (let field_name in messageConfig) {
-            for (let validation of messageConfig[field_name].validation) {
-                let result = validation(field_name, messageConfig[field_name].value);
-                if (result) {
-                    hayErrores = true;
-                    messageConfig[field_name].errors.push(result);
-                }
-            }
-        }
-
-        if (hayErrores) {
-            const response = new ResponseBuilder()
-                .setOk(false)
-                .setStatus(400)
-                .setCode('VALIDATION_ERROR')
-                .setData({ messageState: messageConfig })
-                .build();
-            return res.json(response);
-        }
-
-        const messageCreated = new Message({
-            author,
-            text: messageConfig.text.value,
-            day,
-            hour
-        });
-
-        await messageCreated.save();
-
-        const response = new ResponseBuilder()
-            .setCode('SUCCESS')
-            .setOk(true)
-            .setStatus(200)
-            .setData({ messageResult: messageConfig })
-            .build();
-        return res.json(response);
-    } catch (error) {
-        console.error(error); 
-        const response = new ResponseBuilder()
-            .setOk(false)
-            .setCode(500)
-            .setMessage('Error interno del servidor')
-            .build();
-        return res.json(response);
+    // Validar el campo text
+    const textErrors = verifyString('text', text);
+    if (textErrors.length > 0) {
+      const response = new ResponseBuilder()
+        .setOk(false)
+        .setStatus(400)
+        .setCode('VALIDATION_ERROR')
+        .setData({ textErrors })
+        .build();
+      return res.status(400).json(response);
     }
-};
 
+    // Verificar si el usuario existe
+    const user = await User.findById(authorId);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Crear el mensaje
+    const messageCreated = new Message({
+      author: authorId,
+      text,
+      day,
+      hour
+    });
+
+    await messageCreated.save();
+
+    const response = new ResponseBuilder()
+      .setCode('SUCCESS')
+      .setOk(true)
+      .setStatus(201)
+      .setData({ message: messageCreated })
+      .build();
+    return res.status(201).json(response);
+  } catch (error) {
+    console.error(error);
+    const response = new ResponseBuilder()
+      .setOk(false)
+      .setCode(500)
+      .setMessage('Error interno del servidor')
+      .build();
+    return res.status(500).json(response);
+  }
+};
 
 export const getAllMessagesController = async (req, res) => {
   try {
-    const messages = await Message.find().populate('author', 'name');
+
+    const messages = await Message.find().populate('author', 'name')
     res.status(200).json(messages);
   } catch (error) {
     console.error(error);

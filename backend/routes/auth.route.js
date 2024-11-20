@@ -7,11 +7,13 @@ import {
     recoveryPasswordController 
 } from '../controllers/auth.controller.js';
 import { 
-    createContactController, 
-    getAllContactsController, 
-    getContactByIdController, 
+    createContactController,
+    getAllContactsController,  
+    getContactByIdController
+  /*   
+    , 
     updateContactController, 
-    deleteContactController 
+    deleteContactController  */
 } from '../controllers/contact.controller.js';
 import { 
     createMessageController, 
@@ -37,8 +39,10 @@ router.post('/forgot-password', forgotPasswordController);
 router.post('/contacts', createContactController);
 router.get('/contacts', getAllContactsController);
 router.get('/contacts/:id', getContactByIdController);
+/* ;
+
 router.put('/contacts/:id', updateContactController);
-router.delete('/contacts/:id', deleteContactController);
+router.delete('/contacts/:id', deleteContactController); */
 
 // Rutas de mensajes
 router.post('/users/:id/messages', createMessageController);

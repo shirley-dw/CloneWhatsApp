@@ -1,6 +1,5 @@
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const phoneRegex = /^[0-9]{10,15}$/; // Ejemplo de expresión regular para el teléfono
-
+const phoneRegex = /^[0-9]{10,15}$/; 
 export const verifyString = (field_name, field_value) => {
     if (!(typeof(field_value) === 'string')) {
         return {
