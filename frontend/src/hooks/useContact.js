@@ -1,31 +1,28 @@
 import { useState, useEffect } from 'react';
+import { ObtenerContactos } from '../Fetching/contactosFetching';
 
 const useContactos = (id) => {
-    const [contacto, setContacto] = useState(null);
+    const [contacto, setContacto] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchContacto = async () => {
+        const fetchContactos = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/auth/contacts/${id}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener el contacto');
+                const contactos = await ObtenerContactos();
+                const contactoEncontrado = contactos.find(contacto => contacto.id === Number(id));
+                if (contactoEncontrado) {
+                    setContacto(contactoEncontrado);
                 }
-                const data = await response.json();
-                setContacto(data);
             } catch (error) {
-                console.error("Error al obtener el contacto:", error);
+                console.error('Error al obtener contactos:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        if (id) {
-            fetchContacto();
-        }
+        fetchContactos();
     }, [id]);
 
     return { contacto, loading };
 };
-
 export default useContactos;

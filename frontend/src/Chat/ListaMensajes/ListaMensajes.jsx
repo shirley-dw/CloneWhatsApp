@@ -7,7 +7,7 @@ const ListaMensajes = ({ id, mensaje }) => {
   const { mensajes, setMensajes, contacto, loading } = useMensajes(id);
 
   // New message
-  React.useEffect(() => {
+ useEffect(() => {
     if (mensaje) {
       setMensajes(prevMensajes => [...prevMensajes, mensaje]);
     }

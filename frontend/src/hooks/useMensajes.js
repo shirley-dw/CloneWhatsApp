@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useMensajes = (id) => {
+const useMensajes = () => {
     const [mensajes, setMensajes] = useState([]);
     const [contacto, setContacto] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -8,7 +8,7 @@ const useMensajes = (id) => {
     useEffect(() => {
         const fetchMensajes = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/auth/users/${id}/messages`);
+                const response = await fetch(`http://localhost:3000/api/auth/messages`);
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status}`);
                 }
@@ -21,11 +21,8 @@ const useMensajes = (id) => {
                 setLoading(false);
             }
         };
-
-        if (id) {
-            fetchMensajes();
-        }
-    }, [id]);
+        fetchMensajes();
+    }, []);
 
     return { mensajes, setMensajes, contacto, loading };
 };

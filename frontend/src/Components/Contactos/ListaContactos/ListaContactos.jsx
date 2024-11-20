@@ -1,41 +1,32 @@
-import React, { useState, useEffect } from "react";
-import Contacto from "../../Contactos/Contacto/Contacto.jsx";
-import "./ListaContactos.css";
+import React from 'react';
+import Contacto from '../Contacto/Contacto.jsx';
+import './ListaContactos.css';
 
 const ListaContactos = ({ search, contactos, onSelectContacto }) => {
-  const [contactosFiltrados, setContactosFiltrados] = useState([]);
-
-  useEffect(() => {
-    if (search) {
-      setContactosFiltrados(
-        contactos.filter(contacto =>
-          contacto.name?.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-    } else {
-      setContactosFiltrados(contactos);
+    if (!contactos || contactos.length === 0) {
+        return <p>No se encontraron contactos</p>;
     }
-  }, [contactos, search]);
 
-  return (
-    <div className="contact-list">
-      {contactosFiltrados.map(({ _id, name, thumbnail, mensajes = [] }) => {
-        const ultimoMensaje = mensajes.length > 0 ? mensajes[mensajes.length - 1] : { text: "Sin Mensajes", hour: "" };
+    const filteredContactos = contactos.filter(contacto => 
+        contacto.name.toLowerCase().includes(search.toLowerCase())
+    );
 
-        return (
-          <Contacto
-            id={_id}
-            key={_id}
-            nombre={name}
-            thumbnail={thumbnail}
-            textoUltimoMensaje={ultimoMensaje.text}
-            horaUltimoMensaje={ultimoMensaje.hour}
-            onSelect={() => onSelectContacto(_id)}
-          />
-        );
-      })}
-    </div>
-  );
+    return (
+        <div>
+            {filteredContactos.map(contacto => (
+                <Contacto 
+                    key={contacto._id}
+                    id={contacto._id}
+                    nombre={contacto.name}
+                    thumbnail={contacto.thumbnail}
+                    status={contacto.status}
+                    lastMessage={contacto.lastMessage}
+                    horaUltimoMensaje={contacto.horaUltimoMensaje}
+                    onSelect={onSelectContacto}
+                />
+            ))}
+        </div>
+    );
 };
 
 export default ListaContactos;

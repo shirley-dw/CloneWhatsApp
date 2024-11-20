@@ -2,11 +2,11 @@ import { useParams, Link } from "react-router-dom";
 import { SlArrowLeft } from "react-icons/sl";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import './ChatHeaderInfo.css';
-import useContactos from "../../hooks/useContact";
+import Contacto from "../../Components/Contactos/Contacto/Contacto.jsx";
 
 const ChatHeaderInfo = () => {
   const { id } = useParams();
-  const { contacto, loading } = useContactos(id);
+  const { contacto, loading } = Contacto(id);
 
   if (loading) {
     return <div>Cargando...</div>;

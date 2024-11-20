@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import ListaContactos from "../../Components/Contactos/ListaContactos/ListaContactos.jsx";
 import ContactoFooter from "../../Components/Contactos/ContactoFooter/ContactoFooter.jsx";
 import ContactoHeader from "../../Components/Contactos/ContactoHeader/ContactoHeader.jsx";
+import './ContactScreen.css';
+import { ObtenerContactos } from "../../Fetching/contactosFetching.js";
 
 const ContactScreen = () => {
     const [search, setSearch] = useState('');
     const [contactos, setContactos] = useState([]);
     const [contactoSeleccionado, setContactoSeleccionado] = useState(null);
-    const navigate = useNavigate(); // Usa useNavigate para la navegación
+    const navigate = useNavigate();
 
     const handleSearchChange = (value) => {
         setSearch(value);
@@ -16,20 +18,13 @@ const ContactScreen = () => {
 
     const handleSelectContacto = (id) => {
         setContactoSeleccionado(id);
-        navigate(`/mensaje/${id}`); // Navegar a ChatScreen
+        navigate(`/mensaje/${id}`);
     };
 
     useEffect(() => {
         const fetchContactos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/auth/contacts'); 
-                if (!response.ok) {
-                    throw new Error('Error al obtener los contactos');
-                }
-                const data = await response.json();
-
-                // Extrae la matriz de contactos
-                const contactos = data.data.contacts;
+                const contactos = await ObtenerContactos();
                 setContactos(contactos);
             } catch (error) {
                 console.error('Error al obtener los contactos:', error);
@@ -42,7 +37,9 @@ const ContactScreen = () => {
     return (
         <div className="contact-screens">
             <ContactoHeader search={search} onSearchChange={handleSearchChange} />
-            <ListaContactos search={search} contactos={contactos} onSelectContacto={handleSelectContacto} />
+            <div className="separador">
+            <ListaContactos search={search} contactos={contactos || []} onSelectContacto={handleSelectContacto} />
+            </div>
             {contactoSeleccionado && <ChatScreen contactoID={contactoSeleccionado} />}
             <ContactoFooter />
         </div>
