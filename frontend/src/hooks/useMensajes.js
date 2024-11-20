@@ -1,31 +1,33 @@
-// Importo librerias
 import { useState, useEffect } from 'react';
-// Importo Fetching
-import { ObtenerMensajes } from '../Fetching/mensajesFetching.js';
 
 const useMensajes = (id) => {
-
-    // Defino state inicial
     const [mensajes, setMensajes] = useState([]);
+    const [contacto, setContacto] = useState(null);
     const [loading, setLoading] = useState(true);
-    // Defino la consulta
+
     useEffect(() => {
         const fetchMensajes = async () => {
             try {
-                const mensajes = await ObtenerMensajes();
-                const dataMensajes = mensajes.find(mensajes => mensajes.id === Number(id));
-                setMensajes(dataMensajes);
+                const response = await fetch(`http://localhost:3000/api/auth/users/${id}/messages`);
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                }
+                const data = await response.json();
+                setContacto(data.contacto);
+                setMensajes(data.messages || []);
             } catch (error) {
-                console.error("Error al obtener mensajes:", error);
+                console.error('Error al cargar los mensajes:', error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchMensajes();
-    }, [id]);
-}
-// Retorno la consulta
-return { mensajes, loading };
 
+        if (id) {
+            fetchMensajes();
+        }
+    }, [id]);
+
+    return { mensajes, setMensajes, contacto, loading };
+};
 
 export default useMensajes;

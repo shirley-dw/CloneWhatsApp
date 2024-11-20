@@ -1,6 +1,7 @@
 import express from 'express'
 import statusRouter from '../routes/status.route.js'
 import authRouter from '../routes/auth.route.js'
+import bodyParser from 'body-parser'
 import mongoDB from './config/db.config.js' 
 import cors from 'cors'
 
@@ -8,8 +9,10 @@ import cors from 'cors'
 const PORT = 3000
 const app = express()
 
-app.use(express.json())
-app.use(cors())
+// Middleware 
+app.use(cors()); 
+app.use(bodyParser.json()); // Asegúrate de que este middleware esté configurado 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/status', statusRouter)
 app.use('/api/auth', authRouter)

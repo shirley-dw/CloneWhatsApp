@@ -13,6 +13,16 @@ import {
     updateContactController, 
     deleteContactController 
 } from '../controllers/contact.controller.js';
+import { 
+    createMessageController, 
+    getAllMessagesController, 
+    getMessageByIdController, 
+    updateMessageController, 
+    deleteMessageController
+
+} from '../controllers/message.controller.js';
+
+import { logoutController } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
@@ -30,4 +40,16 @@ router.get('/contacts/:id', getContactByIdController);
 router.put('/contacts/:id', updateContactController);
 router.delete('/contacts/:id', deleteContactController);
 
+// Rutas de mensajes
+router.post('/users/:id/messages', createMessageController);
+router.get('/messages', getAllMessagesController);
+router.get('/messages/:id', getMessageByIdController);
+router.put('/messages/:id', updateMessageController);
+router.delete('/messages/:id', deleteMessageController);
+router.get('/users/:id/messages', getMessageByIdController); 
+
+//Ruta de cerrar sesion
+router.post('/logout', logoutController);
+
 export default router;
+

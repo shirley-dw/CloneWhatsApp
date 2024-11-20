@@ -1,10 +1,11 @@
+
 .chat {
     display: flex;
     flex-direction: column;
-    justify-content: start; /* Corrected 'star' to 'start' */
+
     overflow-y: scroll;
-    background: #ffffff; /* Fondo blanco para el modo claro */
-    color: #000000; /* Texto negro */
+    background: #ffffff; 
+    color: #f30000; 
     height: 100vh;
 }
 
@@ -13,20 +14,21 @@
 }
 
 .chat::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
     height: 10px;
 }
 
 .chat::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Color más claro para el fondo del scroll */
+    background: #484848; 
     border-radius: 10px;
 }
 
 .chat::-webkit-scrollbar-thumb {
-    background: #c1c1c1; /* Color sobrio para el thumb del scroll */
+    background: #19982c; 
     border-radius: 10px;
 }
 
 .chat::-webkit-scrollbar-thumb:hover {
-    background: #a1a1a1; /* Color más oscuro al pasar el mouse */
+    background: #17c147;
 }
+ 

@@ -12,7 +12,7 @@ const IndicationLogin = () => {
         <li>3. No compartas tu contraseña con nadie.</li>
         <li>4. Evita pulsar el botón de "recordar" en tus navegadores.</li>
       </ul>
-      <img src="./imagenes/compu.png" className="img" alt="Computadora con WhatsApp" />
+      <img src="./imagenes/compu.png" className="desktop-image" alt="Computadora con WhatsApp" />
     </div>
   );
 }

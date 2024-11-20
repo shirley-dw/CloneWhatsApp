@@ -1,18 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Contacto.css";
 
-/* Componente Contacto le paso props a contacto */
-const Contacto = ({ id, nombre, thumbnail = '', mensajes = [] }) => {
+const Contacto = ({ id, nombre, thumbnail, status = '', textoUltimoMensaje = 'Sin mensajes', horaUltimoMensaje = '', onSelect }) => {
   const imagenes = thumbnail && thumbnail.startsWith('http') ? thumbnail : `/imagenes/${thumbnail}`;
 
-  const ultimoMensaje = mensajes.length > 0 ? mensajes[mensajes.length - 1] : null;
-  const textoUltimoMensaje = ultimoMensaje?.text ?? 'Sin mensajes';
-  const horaUltimoMensaje = ultimoMensaje?.hour ?? '';
-
-  // Render
   return (
-    <Link className="contact-link" to={`/mensaje/${id}`}>
+    <div className="contact-link" onClick={onSelect}>
       <div key={id} className="contact-item">
         <img src={imagenes} alt={nombre} className="img" />
         <div className="dato">
@@ -20,10 +13,11 @@ const Contacto = ({ id, nombre, thumbnail = '', mensajes = [] }) => {
             <strong>{nombre}</strong>
           </p>
           <div className="ultimo-mensaje">{textoUltimoMensaje}</div>
+          <div className="status">{status}</div>
         </div>
         <div className="time">{horaUltimoMensaje}</div>
       </div>
-    </Link>
+    </div>
   );
 };
 

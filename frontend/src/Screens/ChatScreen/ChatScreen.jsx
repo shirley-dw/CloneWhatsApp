@@ -1,43 +1,41 @@
-//Importo libreria
-import React, { useState} from "react";
-// Importo componenetes
-import { ChatHeaderInfo, ListaMensajes, MensajeForm, InfoScreen } from '../index.js' /* Importa tres componentes desde el archivo */
+import React, { useState } from "react";
+// Importo componentes
+import { ChatHeaderInfo, MensajeForm } from '../index.js';
 // Importo estilos
-import './ChatScreen.css' /* Importa el arhivo ChatScreen.css */
+import './ChatScreen.css';
 
-const ChatScreen = ({ contactoID }) => {
-    //Defino estado inicial de los mensajes
-    const [mensajes, setMensajes] = useState([]); 
-// Funcion addMensajes para agregar un nuevo mensaje
+const ChatScreen = ({ id }) => {
+    // Defino estado inicial de los mensajes
+    const [mensajes, setMensajes] = useState([]);
+
+    // Función addMensaje para agregar un nuevo mensaje
     const addMensaje = (mensajeNuevo) => {
         const msjNuevo = {
             author: 'yo',
             text: mensajeNuevo,
             estado: 'visto',
             day: 'hoy',
-            hour: '11:18',
+            hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             id: mensajes.length + 1
-        }
+            
+        };
         setMensajes([...mensajes, msjNuevo]);
-    }
+        console.log(mensajes);
+    };
+
     // Render
     return (
         <>
-            <ChatHeaderInfo />
-            <div>
-                <div className='chat'> 
-                    <div className='chat-screen'>
-                        <ListaMensajes contactoID={contactoID} mensaje={mensajes[mensajes.length - 1]}  />
-                    </div>
-                    <MensajeForm submitMensaje={addMensaje} /> 
-                    <InfoScreen contactoID={contactoID} />
+            <ChatHeaderInfo contactoID={id} />
+            <div className='chat'>
+                <div className='chat-screen'>
+               
                 </div>
+                <MensajeForm submitMensaje={addMensaje} />
+                
             </div>
         </>
-    )
-}
-export default ChatScreen
-/* Resumen:  El componente ChatScreen define una pantalla de chat que muestra un encabezado, una lista de mensajes 
-    y un formulario para enviar nuevos mensajes.
-   El estado mensajes se utiliza para almacenar la lista de mensajes y se actualiza cuando se agrega un nuevo mensaje. */
+    );
+};
 
+export default ChatScreen;

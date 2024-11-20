@@ -1,45 +1,30 @@
-//Importo librerias
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import  Mensajes  from '../Mensaje/Mensajes';
-//Importo estilos
-import './ListaMensajes.css'
+import React from "react";
+import Mensajes from '../Mensaje/Mensajes';
+import useMensajes from "../../hooks/useMensajes";
+import './ListaMensajes.css';
 
-const ListaMensajes = ({ mensaje }) => {
-  const { id } = useParams()
-  const [mensajeInicial, setMensajeInicial] = useState([])
-  const [contacto, setContacto] = useState();
-// Fetching
-  useEffect(() => {
-    fetch("/http://localhost:3000/api/auth/contacts")
-      .then((response) => response.json())
-      .then((data) => {
-        const contactoEncontrado = data.find(
-          (contacto) => contacto.id === Number(id)
-        );
-        if (contactoEncontrado) {
-          setContacto(contactoEncontrado);
-          setMensajeInicial(contactoEncontrado.mensajes);
-        }
-      });
-  }, [id]);
+const ListaMensajes = ({ id, mensaje }) => {
+  const { mensajes, setMensajes, contacto, loading } = useMensajes(id);
 
-//New message
-  useEffect(() => {
+  // New message
+  React.useEffect(() => {
     if (mensaje) {
-      setMensajeInicial((mensajesPrevios) => [...mensajesPrevios, mensaje]);
+      setMensajes(prevMensajes => [...prevMensajes, mensaje]);
     }
   }, [mensaje]);
 
-//Render
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
   return (
     <div className="container-msj">
-      {mensajeInicial.map((mensaje, index) => (
-         <Mensajes mensaje={mensaje} key={`${id}.${mensaje.id}.${index}`}/>
-        ))}
-        </div>
-)
-}
+      {contacto && <h1>Mensajes de {contacto.name}</h1>}
+      {mensajes.map((mensaje, index) => (
+        <Mensajes mensaje={mensaje} key={`${id}.${mensaje.id}.${index}`} />
+      ))}
+    </div>
+  );
+};
+
 export default ListaMensajes;
-
-

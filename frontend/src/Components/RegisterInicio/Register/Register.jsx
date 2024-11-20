@@ -26,7 +26,7 @@ const Register = () => {
     // Manejo de eventos del formulario para el registro
     const handleRegister = async (event) => {
         event.preventDefault();
-
+    
         try {
             const responseHTTP = await fetch('http://localhost:3000/api/auth/register', {
                 method: 'POST',
@@ -35,9 +35,13 @@ const Register = () => {
                 },
                 body: JSON.stringify(formState)
             });
-
+    
+            console.log('Respuesta HTTP:', responseHTTP);
+    
             const data = await responseHTTP.json();
-
+    
+            console.log('Datos recibidos:', data);
+    
             if (!responseHTTP.ok) {
                 // Manejo de errores específicos de campos
                 if (data.errors) {
@@ -64,7 +68,7 @@ const Register = () => {
             }));
         }
     };
-
+    
     return (
         <div className='register-container'>
             <HeaderRegister />

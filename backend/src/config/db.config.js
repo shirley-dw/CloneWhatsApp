@@ -2,7 +2,8 @@
 
 import mongoDB from "mongoose"
 import User from "../models/user.model.js"
-import Contacto from "../models/contact.model.js"
+import Message from "../models/message.model.js"
+
 
 const MONGO_URL = 'mongodb://localhost:27017/CLONE-WHATSAPP'
 

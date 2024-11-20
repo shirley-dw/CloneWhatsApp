@@ -1,9 +1,11 @@
 import ENVIROMENT from "../src/config/enviroment.js";
+import mongoose from 'mongoose';
 import ResponseBuilder from "../src/helpers/builders/responseBuilder.js";
-import Contacto from "../src/models/contact.model.js";
+import User from "../src/models/user.model.js";
+import Message from "../src/models/message.model.js";
 import { verifyEmail, verifyMinLength, verifyString, verifyPhone } from "../src/helpers/validations.helpers.js";
 
-// Crear un nuevo contacto
+// Crear un nuevo contacto usando User en vez de Contacto
 export const createContactController = async (req, res) => {
     try {
         const { name, email, phone, lastMessage } = req.body;
@@ -36,6 +38,11 @@ export const createContactController = async (req, res) => {
                 validation: [
                     (field_name, field_value) => verifyString(field_name, field_value)
                 ]
+            },
+            status: {
+                value: true,
+                errors: [],
+                validation: []
             }
         };
 
@@ -60,14 +67,15 @@ export const createContactController = async (req, res) => {
             return res.json(response);
         }
 
-        const contactCreated = new Contacto({
+        const userCreated = new User({
             name: contactConfig.name.value,
             email: contactConfig.email.value,
             phone: contactConfig.phone.value,
-            lastMessage: contactConfig.lastMessage.value
+            lastMessage: contactConfig.lastMessage.value,
+            status: contactConfig.status.value
         });
 
-        await contactCreated.save();
+        await userCreated.save();
 
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
@@ -94,17 +102,33 @@ export const createContactController = async (req, res) => {
             return res.json(response);
         }
     }
-};
+ };
 
 // Obtener todos los contactos
 export const getAllContactsController = async (req, res) => {
     try {
-        const contacts = await Contacto.find();
+        // Obtengo todos los usuarios
+        const users = await User.find();
+
+        // Simulo que cada usuario tiene mensajes
+        const contactsWithMessages = await Promise.all(users.map(async (user) => {
+            // Obtengo los mensajes del usuario
+            const mensajes = await Message.find({ author: user._id });
+            
+            return {
+                ...user.toObject(),
+                mensajes: mensajes.map(mensaje => ({
+                    text: mensaje.text,
+                    hour: mensaje.hour
+                }))
+            };
+        }));
+
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
             .setOk(true)
             .setStatus(200)
-            .setData({ contacts })
+            .setData({ contacts: contactsWithMessages })
             .build();
         return res.json(response);
     } catch (error) {
@@ -118,46 +142,39 @@ export const getAllContactsController = async (req, res) => {
     }
 };
 
+
 // Obtener un contacto por ID
+
+
+
 export const getContactByIdController = async (req, res) => {
     try {
         const { id } = req.params;
-        const contact = await Contacto.findById(id);
 
-        if (!contact) {
-            const response = new ResponseBuilder()
-                .setOk(false)
-                .setCode(404)
-                .setMessage('Contacto no encontrado')
-                .build();
-            return res.json(response);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'ID inválido' });
         }
 
-        const response = new ResponseBuilder()
-            .setCode('SUCCESS')
-            .setOk(true)
-            .setStatus(200)
-            .setData({ contact })
-            .build();
-        return res.json(response);
+        const contacto = await User.findById(id);
+
+        if (!contacto) {
+            return res.status(404).json({ message: 'Contacto no encontrado' });
+        }
+
+        res.status(200).json(contacto);
     } catch (error) {
         console.error(error);
-        const response = new ResponseBuilder()
-            .setOk(false)
-            .setCode(500)
-            .setMessage('Error al obtener el contacto')
-            .build();
-        return res.json(response);
+        res.status(500).json({ message: 'Error al obtener el contacto' });
     }
 };
 
 // Actualizar un contacto por ID
 export const updateContactController = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { _id } = req.params;
         const { name, email, phone, lastMessage } = req.body;
 
-        const contact = await Contacto.findById(id);
+        const contact = await User.findById(_id);
 
         if (!contact) {
             const response = new ResponseBuilder()
@@ -196,9 +213,9 @@ export const updateContactController = async (req, res) => {
 // Eliminar un contacto por ID
 export const deleteContactController = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { _id } = req.params;
 
-        const contact = await Contacto.findById(id);
+        const contact = await User.findById(_id);
 
         if (!contact) {
             const response = new ResponseBuilder()

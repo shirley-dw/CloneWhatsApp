@@ -1,4 +1,4 @@
-/* Variables de Chat */
+/* 
 :root {
   --ColorText: #888;
 }
@@ -28,7 +28,7 @@
 }
 
 /*  Responsive MediaQuery */
-
+/* 
 @media (max-widht: 2000px) {
   .container-msj {
     height: 100vh;
@@ -46,7 +46,7 @@
   }
 }
 
-/* Tablet */
+
 @media (max-widht: 992px) {
   .container-msj {
     height: 100vh;
@@ -54,7 +54,6 @@
   }
 }
 
-/* Mobile horizontal*/
 @media (max-widht: 768px) {
   .container-msj {
     height: 100vh;
@@ -70,11 +69,11 @@
 
 }
 
-/* Phone */
+
 
 @media (max-widht: 320px) {
   .container-msj {
     height: 100vh;
     margin-bottom: 50%;
   }
-}
+} */ 

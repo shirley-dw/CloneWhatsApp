@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import ListaContactos from "../../Components/Contactos/ListaContactos/ListaContactos.jsx";
 import ContactoFooter from "../../Components/Contactos/ContactoFooter/ContactoFooter.jsx";
 import ContactoHeader from "../../Components/Contactos/ContactoHeader/ContactoHeader.jsx";
@@ -6,9 +7,16 @@ import ContactoHeader from "../../Components/Contactos/ContactoHeader/ContactoHe
 const ContactScreen = () => {
     const [search, setSearch] = useState('');
     const [contactos, setContactos] = useState([]);
+    const [contactoSeleccionado, setContactoSeleccionado] = useState(null);
+    const navigate = useNavigate(); // Usa useNavigate para la navegación
 
     const handleSearchChange = (value) => {
         setSearch(value);
+    };
+
+    const handleSelectContacto = (id) => {
+        setContactoSeleccionado(id);
+        navigate(`/mensaje/${id}`); // Navegar a ChatScreen
     };
 
     useEffect(() => {
@@ -19,8 +27,7 @@ const ContactScreen = () => {
                     throw new Error('Error al obtener los contactos');
                 }
                 const data = await response.json();
-                console.log('Contactos recibidos:', data);
-                
+
                 // Extrae la matriz de contactos
                 const contactos = data.data.contacts;
                 setContactos(contactos);
@@ -35,7 +42,8 @@ const ContactScreen = () => {
     return (
         <div className="contact-screens">
             <ContactoHeader search={search} onSearchChange={handleSearchChange} />
-            <ListaContactos search={search} contactos={contactos} />
+            <ListaContactos search={search} contactos={contactos} onSelectContacto={handleSelectContacto} />
+            {contactoSeleccionado && <ChatScreen contactoID={contactoSeleccionado} />}
             <ContactoFooter />
         </div>
     );

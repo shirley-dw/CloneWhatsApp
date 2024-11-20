@@ -47,10 +47,9 @@
     text-decoration: none;
 }
 
-.img {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 300px; 
-    height: auto;
+.desktop-image {
+    width: 250px;
+    height: 150px;
+    margin-left: 40px;
 
 }
