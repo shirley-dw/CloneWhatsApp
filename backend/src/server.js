@@ -11,7 +11,7 @@ const app = express()
 
 // Middleware 
 app.use(cors()); 
-app.use(bodyParser.json()); // Asegúrate de que este middleware esté configurado 
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/status', statusRouter)
