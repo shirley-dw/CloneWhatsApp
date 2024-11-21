@@ -1,28 +1,34 @@
+// Importaciones de react 
 import { useState, useEffect } from 'react';
+
+// Función fetching 
 import { ObtenerContactos } from '../Fetching/contactosFetching';
 
-const useContactos = (id) => {
-    const [contacto, setContacto] = useState([]);
-    const [loading, setLoading] = useState(true);
 
+const useContactos = (id) => {
+   //Se definen los estados 
+    const [contacto, setContacto] = useState(null);
+    const [loading, setLoading] = useState(true);
+   
+ // Se define la consulta
     useEffect(() => {
         const fetchContactos = async () => {
             try {
                 const contactos = await ObtenerContactos();
-                const contactoEncontrado = contactos.find(contacto => contacto.id === Number(id));
-                if (contactoEncontrado) {
-                    setContacto(contactoEncontrado);
-                }
+                const dataContacto = contactos.find(contacto => contacto.id === Number(id));
+                setContacto(dataContacto);
             } catch (error) {
-                console.error('Error al obtener contactos:', error);
+                console.error("Error al obtener contactos:", error);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchContactos();
     }, [id]);
 
-    return { contacto, loading };
+  // RETORNA LA CONSULTA
+    return { contacto, loading};
 };
+
+
 export default useContactos;

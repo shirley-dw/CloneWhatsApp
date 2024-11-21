@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ObtenerMensajes } from '../Fetching/mensajesFetching';
 
 const useMensajes = () => {
     const [mensajes, setMensajes] = useState([]);
@@ -8,23 +9,19 @@ const useMensajes = () => {
     useEffect(() => {
         const fetchMensajes = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/auth/messages`);
-                if (!response.ok) {
-                    throw new Error(`Error en la solicitud: ${response.status}`);
-                }
-                const data = await response.json();
-                setContacto(data.contacto);
-                setMensajes(data.messages || []);
+                const mensajes = await ObtenerMensajes();
+                setMensajes(mensajes);
             } catch (error) {
-                console.error('Error al cargar los mensajes:', error);
+                console.error('Error al obtener los mensajes:', error);
             } finally {
                 setLoading(false);
             }
         };
+
         fetchMensajes();
     }, []);
 
-    return { mensajes, setMensajes, contacto, loading };
+    return { mensajes, setMensajes, contacto, setContacto, loading };
 };
 
 export default useMensajes;

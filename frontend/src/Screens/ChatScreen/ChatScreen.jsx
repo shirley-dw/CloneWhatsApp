@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // Importo componentes
-import { ChatHeaderInfo, MensajeForm } from '../index.js';
+import { ChatHeaderInfo, MensajeForm, ListaMensajes} from '../index.js';
 // Importo estilos
 import './ChatScreen.css';
 
@@ -29,7 +29,7 @@ const ChatScreen = ({ id }) => {
             <ChatHeaderInfo contactoID={id} />
             <div className='chat'>
                 <div className='chat-screen'>
-               
+               <ListaMensajes id={id} Mensaje={mensajes} />
                 </div>
                 <MensajeForm submitMensaje={addMensaje} />
                 

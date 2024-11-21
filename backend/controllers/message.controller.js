@@ -1,11 +1,11 @@
 import ENVIROMENT from "../src/config/enviroment.js";
 import ResponseBuilder from "../src/helpers/builders/responseBuilder.js";
 import Message from "../src/models/message.model.js";
-import User from "../src/models/user.model.js";
+
 import { verifyString } from "../src/helpers/validations.helpers.js";
+import Contacto from "../src/models/contact.model.js";
 
 // Crear un nuevo mensaje
-
 
 export const createMessageController = async (req, res) => {
   try {
@@ -13,7 +13,7 @@ export const createMessageController = async (req, res) => {
 
     // Validar el campo text
     const textErrors = verifyString('text', text);
-    if (textErrors.length > 0) {
+    if (textErrors) {
       const response = new ResponseBuilder()
         .setOk(false)
         .setStatus(400)
@@ -24,7 +24,7 @@ export const createMessageController = async (req, res) => {
     }
 
     // Verificar si el usuario existe
-    const user = await User.findById(authorId);
+    const user = await Contacto.findById(authorId);
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
@@ -42,10 +42,10 @@ export const createMessageController = async (req, res) => {
     const response = new ResponseBuilder()
       .setCode('SUCCESS')
       .setOk(true)
-      .setStatus(201)
+      .setStatus(200)
       .setData({ message: messageCreated })
       .build();
-    return res.status(201).json(response);
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     const response = new ResponseBuilder()
@@ -59,8 +59,7 @@ export const createMessageController = async (req, res) => {
 
 export const getAllMessagesController = async (req, res) => {
   try {
-
-    const messages = await Message.find().populate('author', 'name')
+    const messages = await Message.find().populate('author', 'name');
     res.status(200).json(messages);
   } catch (error) {
     console.error(error);
@@ -71,14 +70,8 @@ export const getAllMessagesController = async (req, res) => {
 export const getMessageByIdController = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Verificar si el ID es un ObjectId válido
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'ID inválido' });
-    }
-
     const messages = await Message.find({ author: id }).populate('author', 'name');
-    const user = await User.findById(id);
+    const user = await Contacto.findById(id);
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });

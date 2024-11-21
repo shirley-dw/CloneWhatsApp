@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Mensajes from '../Mensaje/Mensajes';
 import useMensajes from "../../hooks/useMensajes";
 import './ListaMensajes.css';
@@ -6,8 +6,8 @@ import './ListaMensajes.css';
 const ListaMensajes = ({ id, mensaje }) => {
   const { mensajes, setMensajes, contacto, loading } = useMensajes(id);
 
-  // New message
- useEffect(() => {
+  // Nuevo mensaje
+  useEffect(() => {
     if (mensaje) {
       setMensajes(prevMensajes => [...prevMensajes, mensaje]);
     }

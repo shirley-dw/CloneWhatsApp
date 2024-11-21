@@ -11,6 +11,7 @@ import InfoScreen from './InfoScreen/InfoScreen.jsx'
 import Login from '../Components/RegisterInicio/Login/Login.jsx'
 import ForgotPassword from '../Components/RegisterInicio/ForgotPassword/ForgotPassword.jsx'
 import RecoveryPassword from '../Components/RegisterInicio/RecoveryPassword/RecoveryPassword.jsx'
+import Mensaje from '../Chat/Mensaje/Mensajes.jsx'
 
 
 export { 
@@ -26,7 +27,8 @@ export {
     ContactInfo, 
     Login ,
     ForgotPassword,
-    RecoveryPassword}
+    RecoveryPassword,
+    Mensaje}
 
 
 

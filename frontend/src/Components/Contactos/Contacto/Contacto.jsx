@@ -1,6 +1,7 @@
 import React from "react";
 import "./Contacto.css";
 
+
 const Contacto = ({ id, nombre, thumbnail, status, lastMessage = 'Sin mensajes', horaUltimoMensaje = '', onSelect }) => {
   const imagenes = thumbnail && thumbnail.startsWith('http') ? thumbnail : `/imagenes/${thumbnail}`;
 

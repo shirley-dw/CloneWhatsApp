@@ -12,13 +12,13 @@ import { ObtenerContactos } from '../../../Fetching/contactosFetching'
 import './ContactInfo.css'
 
 const ContactInfo = () => {
-    const { contactoID } = useParams([]);
+    const { id } = useParams([]);
     const [contacto, setContacto] = useState([]);
     // Fetching
     useEffect(() => {
         ObtenerContactos()
             .then(data => {
-                const contactoEncontrado = data.find(contacto => contacto.id === Number(contactoID));
+                const contactoEncontrado = data.find(contacto => contacto.id === Number(id));
                 if (contactoEncontrado) {
                     setContacto(contactoEncontrado);
                 }
@@ -26,7 +26,7 @@ const ContactInfo = () => {
             .catch(error => {
                 console.error('Error al obtener contactos:', error);
             });
-    }, [contactoID]);
+    }, [id]);
     // Imagenes
     const imagenes = '/imagenes/' + contacto.thumbnail;
 
