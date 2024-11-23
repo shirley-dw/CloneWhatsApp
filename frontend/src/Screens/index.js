@@ -1,7 +1,7 @@
 import ChatHeaderInfo from '../Chat/ChatHeaderInfo/ChatHeaderInfo.jsx'
 import Mensajes from '../Chat/Mensaje/Mensajes.jsx'
 import ListaMensajes from '../Chat/ListaMensajes/ListaMensajes.jsx'
-import Contacto from '../Components/Contactos/Contacto/Contacto.jsx'
+import Contacto from '../Components/Contactos/Contacto/ContactoCard.jsx'
 import MensajeForm from '../Chat/MensajeForm/MensajeForm.jsx'
 import ListaContactos from '../Components/Contactos/ListaContactos/ListaContactos.jsx'
 import ContactoFooter from '../Components/Contactos/ContactoFooter/ContactoFooter.jsx'
@@ -14,21 +14,22 @@ import RecoveryPassword from '../Components/RegisterInicio/RecoveryPassword/Reco
 import Mensaje from '../Chat/Mensaje/Mensajes.jsx'
 
 
-export { 
-    ChatHeaderInfo, 
-    Mensajes , 
-    ListaMensajes, 
-    MensajeForm, 
-    Contacto, 
-    ListaContactos, 
-    ContactoFooter, 
-    ContactScreen, 
-    InfoScreen, 
-    ContactInfo, 
-    Login ,
+export {
+    ChatHeaderInfo,
+    Mensajes,
+    ListaMensajes,
+    MensajeForm,
+    Contacto,
+    ListaContactos,
+    ContactoFooter,
+    ContactScreen,
+    InfoScreen,
+    ContactInfo,
+    Login,
     ForgotPassword,
     RecoveryPassword,
-    Mensaje}
+    Mensaje
+}
 
 
 

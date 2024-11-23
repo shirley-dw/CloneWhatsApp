@@ -16,10 +16,7 @@ const ContactScreen = () => {
         setSearch(value);
     };
 
-    const handleSelectContacto = (id) => {
-        setContactoSeleccionado(id);
-        navigate(`/mensaje/${id}`);
-    };
+
 
     useEffect(() => {
         const fetchContactos = async () => {
@@ -38,9 +35,8 @@ const ContactScreen = () => {
         <div className="contact-screens">
             <ContactoHeader search={search} onSearchChange={handleSearchChange} />
             <div className="separador">
-            <ListaContactos search={search} contactos={contactos || []} onSelectContacto={handleSelectContacto} />
+                <ListaContactos search={search} contactos={contactos || []} />
             </div>
-            {contactoSeleccionado && <ChatScreen contactoID={contactoSeleccionado} />}
             <ContactoFooter />
         </div>
     );

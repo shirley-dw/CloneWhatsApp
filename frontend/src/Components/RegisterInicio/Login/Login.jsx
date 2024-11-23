@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import useForm from '../../../hooks/useForm';
 import HeaderRegister from '../HeaderRegister/HeaderRegister';
 import IndicationLogin from '../IndicationLogin/IndicationLogin';
@@ -96,7 +96,12 @@ const Login = () => {
                     </div>
                     <button type='submit' className='login-button'>Iniciar sesión</button>
                     {errorsState.general && <div className='error'>{errorsState.general}</div>}
+
                     <Link to='/forgot-password' className='forgot-password-link'>Olvidé mi contraseña</Link>
+                    <div className='register-div'>
+                    <span className='register-span'>¿No tienes una cuenta?</span>
+                    <Link to='/register' className='register-link'>Registrate aqui</Link>
+                    </div>
                 </form>
             </div>
         </div>

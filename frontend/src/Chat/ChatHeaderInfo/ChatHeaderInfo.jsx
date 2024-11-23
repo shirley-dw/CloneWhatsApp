@@ -1,12 +1,27 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { SlArrowLeft } from "react-icons/sl";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import './ChatHeaderInfo.css';
-import Contacto from "../../Components/Contactos/Contacto/Contacto.jsx";
+import { ObtenerContactosById } from "../../Fetching/contactosFetching";
+import { useEffect, useState } from "react";
+
+
 
 const ChatHeaderInfo = () => {
   const { id } = useParams();
-  const { contacto, loading } = Contacto(id);
+  const { state } = useLocation();
+
+
+  /* USElOCATION */
+
+  const [contacto, setContacto] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    ObtenerContactosById(id).then((contacto) => { setContacto(contacto); setLoading(false); });
+
+  }, []);
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -18,18 +33,18 @@ const ChatHeaderInfo = () => {
         <Link to={"/inicio"}>
           <SlArrowLeft className="arrow" />
         </Link>
-        {contacto && (
+        {state && (
           <>
-            <img className="profile-pic" src={contacto.thumbnail} alt="Foto perfil" />
+            <img className="profile-pic" src={state.thumbnail} alt="Foto perfil" />
             <div className="chat-header">
-              <div className="profile-name">{contacto.nombre}</div>
-              <div className="status-text">{contacto.status}</div>
+              <div className="profile-name">{state.name}</div>
+              <div className="status-text">{state.status}</div>
             </div>
           </>
         )}
       </div>
       <div className="icons">
-        <Link to={`/contactInfo/${id}`}>
+        <Link to={`/info`}>
           <BsThreeDotsVertical className="icons" />
         </Link>
       </div>

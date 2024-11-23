@@ -96,3 +96,17 @@ body {
 .forgot-password-link:hover {
     text-decoration: none;
 }
+
+.register-div{
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    gap: 10px;
+}
+.register-link{
+    color: #4facfe;
+    text-decoration: underline;
+}
+.register-link:hover{
+    text-decoration: none;
+}

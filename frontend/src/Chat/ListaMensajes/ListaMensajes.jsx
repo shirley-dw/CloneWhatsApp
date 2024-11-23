@@ -1,27 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Mensajes from '../Mensaje/Mensajes';
-import useMensajes from "../../hooks/useMensajes";
+import { ObtenerMensajes } from "../../Fetching/mensajesFetching";
 import './ListaMensajes.css';
 
-const ListaMensajes = ({ id, mensaje }) => {
-  const { mensajes, setMensajes, contacto, loading } = useMensajes(id);
+const ListaMensajes = () => {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Nuevo mensaje
   useEffect(() => {
-    if (mensaje) {
-      setMensajes(prevMensajes => [...prevMensajes, mensaje]);
+    if (messages.length > 0) {
+      ObtenerMensajes().then(setMessages);
     }
-  }, [mensaje]);
+
+  }, [messages]);
 
   if (loading) {
     return <div>Cargando...</div>;
   }
 
+
   return (
     <div className="container-msj">
-      {contacto && <h1>Mensajes de {contacto.name}</h1>}
-      {mensajes.map((mensaje, index) => (
-        <Mensajes mensaje={mensaje} key={`${id}.${mensaje.id}.${index}`} />
+      {messages.map((message, index) => (
+        <>
+          {message.contacto && <h1>Mensajes de {message.contacto.name}</h1>}
+          <Mensajes mensaje={message} key={`${message.id}.${index}`} />
+        </>
       ))}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './RecoveryPassword.css'; // Importa el archivo CSS
+import './RecoveryPassword.css'; 
+import HeaderRegister from '../HeaderRegister/HeaderRegister';
 
 const RecoveryPassword = () => {
     const { reset_token } = useParams();
@@ -38,7 +39,6 @@ const RecoveryPassword = () => {
             }
             const data = await response.json();
             setMessage(data.message);
-            // Redireccionar a la URL proporcionada
             if (data.redirectUrl) {
                 window.location.href = data.redirectUrl;
             }
@@ -47,40 +47,46 @@ const RecoveryPassword = () => {
             setMessage('Error al restablecer la contraseña');
         }
     };
-    
+
     return (
         <div className="recovery-container">
+            <HeaderRegister />
             <form onSubmit={handleRecoveryPassword} className="recovery-form">
-        
-            <h2 className="recovery-title">Recuperar Contraseña</h2>
+                <h2 className="recovery-title">Recuperar Contraseña</h2>
                 <div className="form-group">
-                    <label htmlFor="password">Nueva Contraseña</label>
+                    <label htmlFor="password" className="recovery-label">Nueva contraseña</label>
                     <input
                         type="password"
                         id="password"
                         name="password"
                         value={formState.password}
                         onChange={handleChange}
+                        placeholder='Nueva contraseña'
+                        className="recovery-input"
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirmar Contraseña</label>
+                    <label htmlFor="confirmPassword" className="recovery-label">Confirmar contraseña</label>
                     <input
                         type="password"
                         id="confirmPassword"
                         name="confirmPassword"
                         value={formState.confirmPassword}
+                        placeholder='Confirmar contraseña'
                         onChange={handleChange}
+                        className="recovery-input"
                         required
                     />
                 </div>
                 {message && <p className="error">{message}</p>}
-                <button type="submit">Restablecer Contraseña</button>
+                <button type="submit" className="recovery-button">Restablecer contraseña</button>
+                <Link to="/login" className="register-link">Iniciar Sesión</Link>
             </form>
-            <Link to="/login">Iniciar Sesión</Link>
+            
         </div>
     );
 };
 
 export default RecoveryPassword;
+

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 // Importo componentes
-import { ChatHeaderInfo, MensajeForm, ListaMensajes} from '../index.js';
+import { MensajeForm, ListaMensajes, ChatHeaderInfo } from '../index.js';
 // Importo estilos
 import './ChatScreen.css';
 
-const ChatScreen = ({ id }) => {
+const ChatScreen = () => {
     // Defino estado inicial de los mensajes
     const [mensajes, setMensajes] = useState([]);
 
@@ -17,22 +17,23 @@ const ChatScreen = ({ id }) => {
             day: 'hoy',
             hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             id: mensajes.length + 1
-            
+
         };
         setMensajes([...mensajes, msjNuevo]);
-        console.log(mensajes);
     };
 
     // Render
     return (
         <>
-            <ChatHeaderInfo contactoID={id} />
+
             <div className='chat'>
+                <ChatHeaderInfo />
                 <div className='chat-screen'>
-               <ListaMensajes id={id} Mensaje={mensajes} />
+                    <ListaMensajes mensajes={mensajes} />
+
                 </div>
                 <MensajeForm submitMensaje={addMensaje} />
-                
+
             </div>
         </>
     );

@@ -6,11 +6,11 @@ import { ObtenerContactos } from '../Fetching/contactosFetching';
 
 
 const useContactos = (id) => {
-   //Se definen los estados 
+   //Defino estados
     const [contacto, setContacto] = useState(null);
     const [loading, setLoading] = useState(true);
    
- // Se define la consulta
+ // la consulta
     useEffect(() => {
         const fetchContactos = async () => {
             try {
