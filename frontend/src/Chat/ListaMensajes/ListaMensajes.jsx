@@ -7,16 +7,20 @@ const ListaMensajes = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Obtener mensajes una vez al montar el componente
   useEffect(() => {
     const fetchMensajes = async () => {
       console.log("Llamada a ObtenerMensajes");
       try {
         const msgs = await ObtenerMensajes();
-        console.log("Mensajes obtenidos:", msgs);
-        if (!msgs) {
-          throw new Error("Los mensajes obtenidos son undefined");
+
+        // Verificación adicional de los datos obtenidos
+        console.log("Respuesta cruda de la API:", msgs);
+
+        if (!msgs || !Array.isArray(msgs)) {
+          throw new Error("Los mensajes obtenidos son undefined o no son un array");
         }
+
+        console.log("Mensajes obtenidos:", msgs);
         setMessages(msgs);
       } catch (error) {
         console.error('Error al obtener los mensajes:', error);
@@ -36,12 +40,16 @@ const ListaMensajes = () => {
 
   return (
     <div className="container-msj">
-      {messages && messages.map((message, index) => (
-        <React.Fragment key={`${message.id}.${index}`}>
-          {message.contacto && <h1>Mensajes de {message.contacto.name}</h1>}
-          <Mensajes mensaje={message} />
-        </React.Fragment>
-      ))}
+      {messages.length === 0 ? (
+        <div>No hay mensajes para mostrar.</div>
+      ) : (
+        messages.map((message, index) => (
+          <React.Fragment key={`${message._id}.${index}`}>
+
+            <Mensajes contacto={message.author} />
+          </React.Fragment>
+        ))
+      )}
     </div>
   );
 };

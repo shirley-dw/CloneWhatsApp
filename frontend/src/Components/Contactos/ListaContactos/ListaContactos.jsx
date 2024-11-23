@@ -38,9 +38,8 @@ const ListaContactos = ({ search }) => {
                     name={contacto.name}
                     thumbnail={contacto.thumbnail}
                     status={contacto.status}
-                    lastMessage={contacto.lastMessage}
-                    horaUltimoMensaje={contacto.horaUltimoMensaje}
-
+                    text={contacto.text}
+                    hour={contacto.hour}
                 />
             ))}
 

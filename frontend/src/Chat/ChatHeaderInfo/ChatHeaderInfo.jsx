@@ -11,9 +11,6 @@ const ChatHeaderInfo = () => {
   const { id } = useParams();
   const { state } = useLocation();
 
-
-  /* USElOCATION */
-
   const [contacto, setContacto] = useState(null);
   const [loading, setLoading] = useState(true);
 

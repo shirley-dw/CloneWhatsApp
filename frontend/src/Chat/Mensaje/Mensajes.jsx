@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//Importo estilos
 import './Mensajes.css';
 import { ObtenerMensajesById } from '../../Fetching/mensajesFetching';
 
@@ -8,15 +7,25 @@ const Mensajes = ({ contacto }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    console.log("Fetch mensajes por ID:", contacto.id);
-    fetchMensajesById(contacto.id);
-  }, [contacto.id]);
+    if (contacto) {
+      console.log("Fetch mensajes por ID:", contacto);
+      fetchMensajesById(contacto._id);
+    } else {
+      console.error("Contacto o ID no válido:", contacto);
+      setLoading(false);
+    }
+  }, [contacto]);
 
   const fetchMensajesById = async (id) => {
     try {
-      const messages = await ObtenerMensajesById(id);
-      console.log("Mensajes obtenidos por ID:", messages);
-      setMessages(prevMensajes => [...prevMensajes, ...messages]);
+      const fetchedMessages = await ObtenerMensajesById(id);
+
+      if (!fetchedMessages || fetchedMessages.length === 0) {
+        throw new Error('Los mensajes obtenidos son undefined o vacíos');
+      }
+
+      console.log("Mensajes obtenidos por ID:", fetchedMessages);
+      setMessages(fetchedMessages); // Actualizar mensajes directamente 
     } catch (error) {
       console.error('Error al obtener los mensajes:', error);
     } finally {
@@ -28,7 +37,10 @@ const Mensajes = ({ contacto }) => {
     return <div>Cargando...</div>;
   }
 
-  //Render
+  if (messages.length === 0) {
+    return <div>No hay mensajes para mostrar.</div>;
+  }
+
   return (
     <>
       {messages.map((message, index) => (
@@ -37,7 +49,7 @@ const Mensajes = ({ contacto }) => {
             <div className="mensaje" style={{ backgroundColor: message.destinatario ? '#D9FDD3' : '#FFFFFF' }}>
               <p className="texto">{message.text}</p>
               <div className="content-lower">
-                <span className="timeSince">{message.day} {message.hour}</span>
+                <span className="timeSince">{message.hour} <style>{message.destinatario ? 'Enviado' : 'Recibido'}</style></span>
               </div>
             </div>
           </div>
