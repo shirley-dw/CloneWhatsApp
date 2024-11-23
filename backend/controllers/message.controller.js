@@ -8,26 +8,32 @@ import Contacto from "../src/models/contact.model.js";
 // Crear un nuevo mensaje
 
 
-
 export const createMessageController = async (req, res) => {
     try {
-        const { author, text, status, day, hour } = req.body;
+        const { author, text, status, day, hour, destinatario } = req.body;
 
-        const newMessage = new Message({ author, text, status, day, hour, messageTime});
+        // Crear y guardar el nuevo mensaje
+        const newMessage = new Message({ author, text, status, day, hour, destinatario });
         const savedMessage = await newMessage.save();
 
-     
+        // Actualizar el contacto del autor
         await Contacto.findByIdAndUpdate(author, {
             lastMessage: text,
             lastMessageTime: new Date(),
-            fecha_actualizacion: new Date() 
+            fecha_actualizacion: new Date()
         });
+
+        // populate para incluir detalles del autor y destinatario
+        const populatedMessage = await savedMessage
+            .populate('author', ' name')
+            .populate('destinatario', 'name')
+            .execPopulate();
 
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
             .setOk(true)
             .setStatus(200)
-            .setData({ message: savedMessage })
+            .setData({ message: populatedMessage })
             .build();
 
         return res.status(200).json(response);
@@ -43,34 +49,35 @@ export const createMessageController = async (req, res) => {
     }
 };
 
+
 export const getAllMessagesController = async (req, res) => {
-  try {
-    const messages = await Message.find().populate('author', 'name');
-    res.status(200).json(messages);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener los mensajes' });
-  }
+    try {
+        const messages = await Message.find().populate('author', 'name');
+        res.status(200).json(messages);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los mensajes' });
+    }
 };
 
 export const getMessageByIdController = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const messages = await Message.find({ author: id }).populate('author', 'name');
-    const contact = await Contacto.findById(id);
+    try {
+        const { id } = req.params;
+        const messages = await Message.find({ author: id }).populate('author', 'name');
+        const contact = await Contacto.findById(id);
 
-    if (!contact) {
-      return res.status(404).json({ message: 'Contacto no encontrado' });
+        if (!contact) {
+            return res.status(404).json({ message: 'Contacto no encontrado' });
+        }
+
+        res.status(200).json({
+            contacto: contact,
+            messages
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los mensajes' });
     }
-
-    res.status(200).json({
-      contacto: contact,
-      messages
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener los mensajes' });
-  }
 };
 
 
@@ -88,7 +95,7 @@ export const updateMessageController = async (req, res) => {
                 .setCode(404)
                 .setMessage('Mensaje no encontrado')
                 .build();
-            return res.status(404).json(response); 
+            return res.status(404).json(response);
         }
 
         message.text = text || message.text;

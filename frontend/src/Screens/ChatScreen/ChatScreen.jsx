@@ -17,26 +17,26 @@ const ChatScreen = () => {
             day: 'hoy',
             hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             id: mensajes.length + 1
-
         };
+        console.log("Nuevo mensaje:", msjNuevo);
         setMensajes([...mensajes, msjNuevo]);
     };
+
+
 
     // Render
     return (
         <>
-
             <div className='chat'>
                 <ChatHeaderInfo />
                 <div className='chat-screen'>
                     <ListaMensajes mensajes={mensajes} />
-
                 </div>
                 <MensajeForm submitMensaje={addMensaje} />
-
             </div>
         </>
     );
 };
 
 export default ChatScreen;
+

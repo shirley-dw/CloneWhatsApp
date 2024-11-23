@@ -13,7 +13,11 @@ const MessageSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    enum: ['enviado', 'recibido', 'leido'],
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['enviado', 'recibido', 'visto'],
     default: 'enviado'
   },
   day: {

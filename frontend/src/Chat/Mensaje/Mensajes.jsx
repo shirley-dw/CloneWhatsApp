@@ -1,25 +1,32 @@
-//Importo libreria
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 //Importo estilos
 import './Mensajes.css';
+import { ObtenerMensajesById } from '../../Fetching/mensajesFetching';
 
 const Mensajes = ({ contacto }) => {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    console.log("Fetch mensajes por ID:", contacto.id);
     fetchMensajesById(contacto.id);
   }, [contacto.id]);
+
   const fetchMensajesById = async (id) => {
     try {
       const messages = await ObtenerMensajesById(id);
-      setMessages(prevMensajes => [...prevMensajes, messages]);
+      console.log("Mensajes obtenidos por ID:", messages);
+      setMessages(prevMensajes => [...prevMensajes, ...messages]);
     } catch (error) {
       console.error('Error al obtener los mensajes:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
   //Render
   return (
@@ -39,6 +46,5 @@ const Mensajes = ({ contacto }) => {
     </>
   );
 };
-
 
 export default Mensajes;

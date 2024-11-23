@@ -10,6 +10,9 @@ const ContactScreen = () => {
     const [search, setSearch] = useState('');
     const [contactos, setContactos] = useState([]);
     const [contactoSeleccionado, setContactoSeleccionado] = useState(null);
+
+
+
     const navigate = useNavigate();
 
     const handleSearchChange = (value) => {
