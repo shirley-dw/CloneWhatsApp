@@ -9,9 +9,9 @@ const ContactoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  lastMessage: {
+  text: {
     type: String,
-    default: 'Sin mensajes'
+    ref: 'Message',
   },
   email: {
     type: String,

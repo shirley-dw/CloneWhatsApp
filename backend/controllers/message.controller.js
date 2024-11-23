@@ -7,27 +7,29 @@ import Contacto from "../src/models/contact.model.js";
 
 // Crear un nuevo mensaje
 
-
 export const createMessageController = async (req, res) => {
     try {
         const { author, text, status, day, hour, destinatario } = req.body;
 
-        // Crear y guardar el nuevo mensaje
+        console.log('Datos recibidos:', { author, text, status, day, hour, destinatario });
+
+        if (!author || !destinatario) {
+            throw new Error("Author y destinatario son requeridos");
+        }
+
         const newMessage = new Message({ author, text, status, day, hour, destinatario });
         const savedMessage = await newMessage.save();
 
-        // Actualizar el contacto del autor
         await Contacto.findByIdAndUpdate(author, {
-            lastMessage: text,
+            text: text,
             lastMessageTime: new Date(),
             fecha_actualizacion: new Date()
         });
 
-        // populate para incluir detalles del autor y destinatario
-        const populatedMessage = await savedMessage
-            .populate('author', ' name')
-            .populate('destinatario', 'name')
-            .execPopulate();
+        // Populamos el mensaje guardado para incluir detalles del autor y destinatario
+        const populatedMessage = await Message.findById(savedMessage._id)
+            .populate('author', 'name')
+            .populate('destinatario', 'name');
 
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
@@ -48,7 +50,6 @@ export const createMessageController = async (req, res) => {
         return res.status(500).json(response);
     }
 };
-
 
 export const getAllMessagesController = async (req, res) => {
     try {

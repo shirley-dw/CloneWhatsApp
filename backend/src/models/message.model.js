@@ -9,7 +9,6 @@ const MessageSchema = new mongoose.Schema({
   destinatario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Contacto',
-    required: true
   },
   text: {
     type: String,

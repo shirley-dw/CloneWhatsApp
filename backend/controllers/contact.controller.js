@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 
 export const createContactController = async (req, res) => {
     try {
-        const { name, email, phone, lastMessage } = req.body;
+        const { name, email, phone, text } = req.body;
 
         const errors = {};
 
@@ -26,12 +26,13 @@ export const createContactController = async (req, res) => {
                 .setOk(false)
                 .setStatus(400)
                 .setCode('VALIDATION_ERROR')
+                .setMessage('Validaciones fallidas')
                 .setData({ errors })
                 .build();
             return res.status(400).json(response);
         }
 
-        const contactCreated = new Contacto({ name, email, phone, lastMessage });
+        const contactCreated = new Contacto({ name, email, phone, text });
         await contactCreated.save();
 
         const response = new ResponseBuilder()
