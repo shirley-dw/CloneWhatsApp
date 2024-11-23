@@ -5,10 +5,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phone: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true,
@@ -32,19 +28,6 @@ const userSchema = new mongoose.Schema({
     activo: {
         type: Boolean,
         default: true
-    },
-    profilePicture: {
-        type: String,
-        default: null
-    },
-    lastActive: {
-        type: Date,
-        default: Date.now
-    },
-    status: {
-        type: String,
-        enum: ['online', 'Desconectado'],
-        default: 'Desconectado'
     }
 });
 

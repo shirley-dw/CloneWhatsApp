@@ -3,17 +3,18 @@ import mongoose from 'mongoose';
 const MessageSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Contacto',
+    required: true
+  },
+  destinatario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contacto',
     required: true
   },
   text: {
     type: String,
-    required: true
-  },
-  status: {
-    type: String,
-    enum: ['sent', 'received', 'read'],
-    default: 'sent'
+    enum: ['enviado', 'recibido', 'leido'],
+    default: 'enviado'
   },
   day: {
     type: String,

@@ -7,60 +7,60 @@ import mongoose from 'mongoose';
 
 
 export const createContactController = async (req, res) => {
-  try {
-    const { name, email, phone, lastMessage } = req.body;
+    try {
+        const { name, email, phone, lastMessage } = req.body;
 
-    const errors = {};
+        const errors = {};
 
-    const validateField = (field, value, validators) => {
-      const fieldErrors = validators.map(validate => validate(field, value)).filter(Boolean);
-      if (fieldErrors.length) errors[field] = fieldErrors;
-    };
+        const validateField = (field, value, validators) => {
+            const fieldErrors = validators.map(validate => validate(field, value)).filter(Boolean);
+            if (fieldErrors.length) errors[field] = fieldErrors;
+        };
 
-    validateField('name', name, [verifyString, field => verifyMinLength(field, name, 5)]);
-    validateField('email', email, [verifyEmail]);
-    validateField('phone', phone, [verifyPhone]);
+        validateField('name', name, [verifyString, field => verifyMinLength(field, name, 5)]);
+        validateField('email', email, [verifyEmail]);
+        validateField('phone', phone, [verifyPhone]);
 
-    if (Object.keys(errors).length) {
-      const response = new ResponseBuilder()
-        .setOk(false)
-        .setStatus(400)
-        .setCode('VALIDATION_ERROR')
-        .setData({ errors })
-        .build();
-      return res.status(400).json(response);
+        if (Object.keys(errors).length) {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setStatus(400)
+                .setCode('VALIDATION_ERROR')
+                .setData({ errors })
+                .build();
+            return res.status(400).json(response);
+        }
+
+        const contactCreated = new Contacto({ name, email, phone, lastMessage });
+        await contactCreated.save();
+
+        const response = new ResponseBuilder()
+            .setCode('SUCCESS')
+            .setOk(true)
+            .setStatus(200)
+            .setData({ contactResult: contactCreated })
+            .build();
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error('Error al crear el contacto:', error);
+
+        if (error.code === 11000) { // Error de duplicado en MongoDB
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setCode(400)
+                .setMessage('Email ya está registrado')
+                .setData({ detail: 'El email ya está registrado' })
+                .build();
+            return res.status(400).json(response);
+        } else {
+            const response = new ResponseBuilder()
+                .setOk(false)
+                .setCode(500)
+                .setMessage('Error interno del servidor')
+                .build();
+            return res.status(500).json(response);
+        }
     }
-
-    const contactCreated = new Contacto({ name, email, phone, lastMessage });
-    await contactCreated.save();
-
-    const response = new ResponseBuilder()
-      .setCode('SUCCESS')
-      .setOk(true)
-      .setStatus(200)
-      .setData({ contactResult: contactCreated })
-      .build();
-    return res.status(200).json(response);
-  } catch (error) {
-    console.error('Error al crear el contacto:', error);
-
-    if (error.code === 11000) { // Error de duplicado en MongoDB
-      const response = new ResponseBuilder()
-        .setOk(false)
-        .setCode(400)
-        .setMessage('Email ya está registrado')
-        .setData({ detail: 'El email ya está registrado' })
-        .build();
-      return res.status(400).json(response);
-    } else {
-      const response = new ResponseBuilder()
-        .setOk(false)
-        .setCode(500)
-        .setMessage('Error interno del servidor')
-        .build();
-      return res.status(500).json(response);
-    }
-  }
 };
 
 // Obtener todos los contactos
@@ -69,13 +69,12 @@ export const getAllContactsController = async (req, res) => {
     try {
         // Obtengo todos los contactos
         const contactos = await Contacto.find();
-
         // Construyo la respuesta con los contactos obtenidos
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
             .setOk(true)
             .setStatus(200)
-            .setData({ contacts: contactos }) 
+            .setData(contactos)
             .build();
         return res.status(200).json(response);
     } catch (error) {

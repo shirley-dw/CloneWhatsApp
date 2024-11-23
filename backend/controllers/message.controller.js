@@ -1,60 +1,46 @@
 import ENVIROMENT from "../src/config/enviroment.js";
 import ResponseBuilder from "../src/helpers/builders/responseBuilder.js";
 import Message from "../src/models/message.model.js";
-
+import mongoose from "mongoose";
 import { verifyString } from "../src/helpers/validations.helpers.js";
 import Contacto from "../src/models/contact.model.js";
 
 // Crear un nuevo mensaje
 
+
+
 export const createMessageController = async (req, res) => {
-  try {
-    const { authorId, text, day, hour } = req.body;
+    try {
+        const { author, text, status, day, hour } = req.body;
 
-    // Validar el campo text
-    const textErrors = verifyString('text', text);
-    if (textErrors) {
-      const response = new ResponseBuilder()
-        .setOk(false)
-        .setStatus(400)
-        .setCode('VALIDATION_ERROR')
-        .setData({ textErrors })
-        .build();
-      return res.status(400).json(response);
+        const newMessage = new Message({ author, text, status, day, hour, messageTime});
+        const savedMessage = await newMessage.save();
+
+     
+        await Contacto.findByIdAndUpdate(author, {
+            lastMessage: text,
+            lastMessageTime: new Date(),
+            fecha_actualizacion: new Date() 
+        });
+
+        const response = new ResponseBuilder()
+            .setCode('SUCCESS')
+            .setOk(true)
+            .setStatus(200)
+            .setData({ message: savedMessage })
+            .build();
+
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error('Error al crear el mensaje:', error);
+        const response = new ResponseBuilder()
+            .setOk(false)
+            .setCode(500)
+            .setMessage('Error al crear el mensaje')
+            .build();
+
+        return res.status(500).json(response);
     }
-
-    // Verificar si el usuario existe
-    const user = await Contacto.findById(authorId);
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-
-    // Crear el mensaje
-    const messageCreated = new Message({
-      author: authorId,
-      text,
-      day,
-      hour
-    });
-
-    await messageCreated.save();
-
-    const response = new ResponseBuilder()
-      .setCode('SUCCESS')
-      .setOk(true)
-      .setStatus(200)
-      .setData({ message: messageCreated })
-      .build();
-    return res.status(200).json(response);
-  } catch (error) {
-    console.error(error);
-    const response = new ResponseBuilder()
-      .setOk(false)
-      .setCode(500)
-      .setMessage('Error interno del servidor')
-      .build();
-    return res.status(500).json(response);
-  }
 };
 
 export const getAllMessagesController = async (req, res) => {
@@ -71,14 +57,14 @@ export const getMessageByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     const messages = await Message.find({ author: id }).populate('author', 'name');
-    const user = await Contacto.findById(id);
+    const contact = await Contacto.findById(id);
 
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+    if (!contact) {
+      return res.status(404).json({ message: 'Contacto no encontrado' });
     }
 
     res.status(200).json({
-      contacto: user,
+      contacto: contact,
       messages
     });
   } catch (error) {
@@ -88,7 +74,7 @@ export const getMessageByIdController = async (req, res) => {
 };
 
 
-// Actualizar un mensaje por ID
+
 export const updateMessageController = async (req, res) => {
     try {
         const { id } = req.params;
@@ -102,7 +88,7 @@ export const updateMessageController = async (req, res) => {
                 .setCode(404)
                 .setMessage('Mensaje no encontrado')
                 .build();
-            return res.json(response);
+            return res.status(404).json(response); 
         }
 
         message.text = text || message.text;
@@ -118,15 +104,15 @@ export const updateMessageController = async (req, res) => {
             .setStatus(200)
             .setData({ message })
             .build();
-        return res.json(response);
+        return res.status(200).json(response);
     } catch (error) {
-        console.error(error);
+        console.error('Error al actualizar el mensaje:', error);
         const response = new ResponseBuilder()
             .setOk(false)
             .setCode(500)
             .setMessage('Error al actualizar el mensaje')
             .build();
-        return res.json(response);
+        return res.status(500).json(response);
     }
 };
 
@@ -146,7 +132,7 @@ export const deleteMessageController = async (req, res) => {
             return res.json(response);
         }
 
-        await message.remove();
+        await Message.findByIdAndDelete(id);
 
         const response = new ResponseBuilder()
             .setCode('SUCCESS')

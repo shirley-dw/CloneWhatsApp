@@ -5,12 +5,16 @@ import mongoDB from './config/db.config.js'
 import cors from 'cors'
 
 
+
 const PORT = 3000
 const app = express()
+
+
 
 // Middleware 
 app.use(express.json())
 app.use(cors())
+
 
 app.use('/api/status', statusRouter)
 app.use('/api/auth', authRouter)

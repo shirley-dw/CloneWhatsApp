@@ -11,12 +11,30 @@ const ContactoSchema = new mongoose.Schema({
   },
   lastMessage: {
     type: String,
-    default: null
+    default: 'Sin mensajes'
   },
   email: {
     type: String,
     required: true,
     unique: true
+  },
+  fecha_creacion: {
+    type: Date,
+    default: Date.now
+  },
+  fecha_actualizacion: {
+    type: Date,
+    default: Date.now
+  },
+  status: {
+    type: String,
+    enum: ['En linea', 'Desconectado'],
+    default: 'En linea'
+  },
+  messageTime:
+  {
+    type: Date,
+    default: Date.now
   }
 }, {
   timestamps: true
