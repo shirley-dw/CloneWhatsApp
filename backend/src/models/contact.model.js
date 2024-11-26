@@ -3,15 +3,14 @@ import mongoose from 'mongoose';
 const ContactoSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
-  },
-  phone: {
-    type: String,
-    required: true
+    required: true,
+    ref: 'Message',
   },
   text: {
     type: String,
-    ref: 'Message',
+  },
+  phone: {
+    type: String,
   },
   email: {
     type: String,

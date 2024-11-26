@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Message'
+    },
     email: {
         type: String,
         required: true,
@@ -18,7 +22,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verificationToken: { 
+    verificationToken: {
         type: String
     },
     fecha_creacion: {

@@ -1,34 +1,28 @@
-import jwt from 'jsonwebtoken'
-import ENVIROMENT from '../config/enviroment.js'
+import jwt from 'jsonwebtoken';
+import User from '../models/user.model.js';
+import ENVIROMENT from '../config/enviroment.js';
 
-const authMiddleware = (req, res, next) => {
-    try {
-        //Este header generalmente tiene informacion de la authorizacion
-        const auth_header = req.headers['authorization'] //'Bearer token_value'
+export const authenticateToken = async (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-        if (!auth_header) {
-            return res.json({ message: 'Falta el token de autorizacion' })
-        }
-        //'Bearer token_value'.split(' ') => ['Bearer', 'token_value']
-        const access_token = auth_header.split(' ')[1]
-
-        if (!access_token) {
-            return res.json({ message: 'El token de autorizacion esta malformado' })
-        }
-
-        const user_session_payload_decoded = jwt.verify(access_token, ENVIROMENT.SECRET_KEY)
-
-        //request es un objeto con datos de la consulta
-
-        //Guardamos en el objeto request informacion de sesion del usuario
-        req.user = user_session_payload_decoded
-
-        next() //ir al controlador o middleware siguiente
+    if (!token) {
+        return res.status(401).json({ message: 'Token no encontrado' });
     }
-    catch (error) {
-        res.sendStatus(500)
-    }   
 
-} 
+    try {
+        const decoded = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+        const user = await User.findById(decoded.user_id);
 
-export default authMiddleware
+        if (!user) {
+            return res.status(403).json({ message: 'Usuario no encontrado' });
+        }
+
+        req.user = user;
+        console.log('Usuario autenticado:', req.user);
+        next();
+    } catch (error) {
+        console.error('Error al verificar el token:', error);
+        return res.status(403).json({ message: 'Token no válido' });
+    }
+};

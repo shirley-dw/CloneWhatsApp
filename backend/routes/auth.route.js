@@ -1,11 +1,14 @@
 import express from 'express';
+// Controller de registro
 import {
     loginController,
     registerController,
     verifyEmailController,
     forgotPasswordController,
-    recoveryPasswordController
+    recoveryPasswordController,
+    logoutController
 } from '../controllers/auth.controller.js';
+// Controller de contactos
 import {
     createContactController,
     getAllContactsController,
@@ -13,16 +16,17 @@ import {
     updateContactController,
     deleteContactController
 } from '../controllers/contact.controller.js';
+// Middleware de controller de autenticación
+/* import { authenticateToken } from '../src/middlewares/auth.middleware.js'; */
+// Controller de mensajes
 import {
     createMessageController,
     getAllMessagesController,
     getMessageByIdController,
     updateMessageController,
-    deleteMessageController
-
+    deleteMessageController,
+    getMessagesByUserOrContact
 } from '../controllers/message.controller.js';
-
-import { logoutController } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
@@ -46,10 +50,14 @@ router.get('/messages', getAllMessagesController);
 router.get('/messages/:id', getMessageByIdController);
 router.put('/messages/:id', updateMessageController);
 router.delete('/messages/:id', deleteMessageController);
-router.get('/users/:id/messages', getMessageByIdController);
 
 //Ruta de cerrar sesion
 router.post('/logout', logoutController);
+
+// Ruta para obtener mensajes según el usuario y el tipo (author o destinatario)
+router.get('/:id/:type', getMessagesByUserOrContact);
+
+
 
 export default router;
 

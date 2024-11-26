@@ -6,11 +6,12 @@ import dotenv from 'dotenv';
 // Configuramos en process.env las variables de entorno del archivo .env
 dotenv.config();
 
+
 const ENVIROMENT = {
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
     EMAIL_USER: process.env.EMAIL_USER || '',
     SECRET_KEY: process.env.SECRET_KEY || '',
-    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
+    FRONTEND_URL: process.env.FRONTEND_URL || '',
 };
 
 export default ENVIROMENT;

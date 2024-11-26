@@ -2,54 +2,55 @@ import ENVIROMENT from "../src/config/enviroment.js";
 import ResponseBuilder from "../src/helpers/builders/responseBuilder.js";
 import Message from "../src/models/message.model.js";
 import mongoose from "mongoose";
-import { verifyString } from "../src/helpers/validations.helpers.js";
+import User from "../src/models/user.model.js";
 import Contacto from "../src/models/contact.model.js";
 
 // Crear un nuevo mensaje
 
 export const createMessageController = async (req, res) => {
     try {
+        // Extraer datos del cuerpo de la solicitud
         const { author, text, status, day, hour, destinatario } = req.body;
 
-        console.log('Datos recibidos:', { author, text, status, day, hour, destinatario });
-
-        if (!author || !destinatario) {
-            throw new Error("Author y destinatario son requeridos");
+        // Validar que los campos necesarios están presentes y son válidos
+        if (!author || !mongoose.Types.ObjectId.isValid(author)) {
+            return res.status(400).json({ message: 'Author debe ser un ObjectId válido' });
         }
 
+        if (!destinatario || !mongoose.Types.ObjectId.isValid(destinatario)) {
+            return res.status(400).json({ message: 'Destinatario debe ser un ObjectId válido' });
+        }
+
+        // Verificar que el autor (user) existe
+        const user = await User.findById(author);
+        if (!user) {
+            return res.status(400).json({ message: 'El autor no existe' });
+        }
+
+        // Verificar que el destinatario (contacto) existe
+        const contacto = await Contacto.findById(destinatario);
+        if (!contacto) {
+            return res.status(400).json({ message: 'El destinatario no existe' });
+        }
+
+        // Crear el mensaje
         const newMessage = new Message({ author, text, status, day, hour, destinatario });
         const savedMessage = await newMessage.save();
 
-        await Contacto.findByIdAndUpdate(author, {
-            text: text,
-            lastMessageTime: new Date(),
-            fecha_actualizacion: new Date()
-        });
-
-        // Populamos el mensaje guardado para incluir detalles del autor y destinatario
+        // Popular los datos del autor y destinatario
         const populatedMessage = await Message.findById(savedMessage._id)
             .populate('author', 'name')
             .populate('destinatario', 'name');
 
-        const response = new ResponseBuilder()
-            .setCode('SUCCESS')
-            .setOk(true)
-            .setStatus(200)
-            .setData({ message: populatedMessage })
-            .build();
-
-        return res.status(200).json(response);
+        // Respuesta exitosa
+        return res.status(200).json(populatedMessage);
     } catch (error) {
         console.error('Error al crear el mensaje:', error);
-        const response = new ResponseBuilder()
-            .setOk(false)
-            .setCode(500)
-            .setMessage('Error al crear el mensaje')
-            .build();
-
-        return res.status(500).json(response);
+        return res.status(500).json({ message: 'Error al crear el mensaje' });
     }
 };
+
+
 
 export const getAllMessagesController = async (req, res) => {
     try {
@@ -64,7 +65,21 @@ export const getAllMessagesController = async (req, res) => {
 export const getMessageByIdController = async (req, res) => {
     try {
         const { id } = req.params;
-        const messages = await Message.find({ author: id }).populate('author', 'name');
+
+        // Mensajes enviados por el contacto
+        const mensajesEnviados = await Message.find({ author: id })
+            .populate('author', 'name')
+            .populate('destinatario', 'name');
+
+        // Mensajes recibidos por el contacto
+        const mensajesRecibidos = await Message.find({ destinatario: id })
+            .populate('author', 'name')
+            .populate('destinatario', 'name');
+
+        // Combinar los mensajes enviados y recibidos
+        const messages = [...mensajesEnviados, ...mensajesRecibidos];
+
+        // Buscar información del contacto
         const contact = await Contacto.findById(id);
 
         if (!contact) {
@@ -76,11 +91,10 @@ export const getMessageByIdController = async (req, res) => {
             messages
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error al obtener los mensajes:', error);
         res.status(500).json({ message: 'Error al obtener los mensajes' });
     }
 };
-
 
 
 export const updateMessageController = async (req, res) => {
@@ -157,5 +171,18 @@ export const deleteMessageController = async (req, res) => {
             .setMessage('Error al eliminar el mensaje')
             .build();
         return res.json(response);
+    }
+};
+
+// Obtener mensajes por author o destinatario
+export const getMessagesByUserOrContact = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { type } = req.params;
+        const messages = await Message.find({ [type]: id }).populate('author', 'name');
+        res.status(200).json(messages);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los mensajes' });
     }
 };

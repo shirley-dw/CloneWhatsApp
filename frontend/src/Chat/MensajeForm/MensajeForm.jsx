@@ -4,6 +4,9 @@ import { MdAttachFile } from "react-icons/md";
 import { MdSend } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
 import './MensajeForm.css';
+import { isValidObjectId } from '../../utils/validate.id.js';
+// Función para validar si un ObjectId es válido
+
 
 const MensajeForm = ({ setMensajes }) => {
     const [mensaje, setMensaje] = useState('');
@@ -11,19 +14,33 @@ const MensajeForm = ({ setMensajes }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const authorId = localStorage.getItem('userId'); // Obtén el ID del autor desde el localStorage
+        // Validación de los IDs antes de enviar
+        if (!isValidObjectId(authorId)) {
+            console.error("El ID del autor no es válido.");
+            return;
+        }
+
+        if (!isValidObjectId(destinatarioId)) {
+            console.error("El ID del destinatario no es válido.");
+            return;
+        }
+
         const msjNuevo = {
-            author: 'yo',
+            author: authorId,
             text: mensaje,
-            estado: 'visto',
-            day: 'hoy',
+            status: 'visto',
+            day: new Date().toLocaleDateString(),
             hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            destinatario: destinatarioId,
         };
+
         try {
-            // Hacer la llamada a la API para guardar el mensaje
             const response = await fetch('http://localhost:3000/api/auth/messages', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Asegúrate de que el token esté presente
                 },
                 body: JSON.stringify(msjNuevo),
             });
@@ -31,11 +48,11 @@ const MensajeForm = ({ setMensajes }) => {
             if (!response.ok) {
                 throw new Error('Error al guardar el mensaje');
             }
-            console.log(msjNuevo);
+
             const savedMessage = await response.json();
             console.log("Mensaje guardado:", savedMessage);
             setMensajes(prevMensajes => [...prevMensajes, savedMessage]); // Actualiza el estado de mensajes
-            setMensaje(''); // Resetea el input 
+            setMensaje(''); // Resetea el input
         } catch (error) {
             console.error("Error al enviar el mensaje:", error);
         }

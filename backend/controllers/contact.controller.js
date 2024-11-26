@@ -1,5 +1,4 @@
 import Contacto from '../src/models/contact.model.js';
-
 import { verifyString, verifyMinLength, verifyEmail, verifyPhone } from '../src/helpers/validations.helpers.js';
 import ResponseBuilder from '../src/helpers/builders/responseBuilder.js';
 import ENVIROMENT from '../src/config/enviroment.js';
@@ -121,11 +120,11 @@ export const getContactByIdController = async (req, res) => {
 export const updateContactController = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, lastMessage } = req.body;
+        const { name, email, phone, text } = req.body;
 
-        const contact = await Contacto.findById(id);
+        const contacto = await Contacto.findById(id);
 
-        if (!contact) {
+        if (!contacto) {
             const response = new ResponseBuilder()
                 .setOk(false)
                 .setCode(404)
@@ -134,18 +133,18 @@ export const updateContactController = async (req, res) => {
             return res.json(response);
         }
 
-        contact.name = name || contact.name;
-        contact.email = email || contact.email;
-        contact.phone = phone || contact.phone;
-        contact.lastMessage = lastMessage || contact.lastMessage;
+        contacto.name = name || contacto.name;
+        contacto.email = email || contacto.email;
+        contacto.phone = phone || contacto.phone;
+        contacto.text = text || contacto.text;
 
-        await contact.save();
+        await contacto.save();
 
         const response = new ResponseBuilder()
             .setCode('SUCCESS')
             .setOk(true)
             .setStatus(200)
-            .setData({ contact })
+            .setData({ contacto })
             .build();
         return res.json(response);
     } catch (error) {
@@ -164,9 +163,9 @@ export const deleteContactController = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const contact = await Contacto.findById(id);
+        const contacto = await Contacto.findById(id);
 
-        if (!contact) {
+        if (!contacto) {
             const response = new ResponseBuilder()
                 .setOk(false)
                 .setCode(404)

@@ -3,12 +3,13 @@ import mongoose from 'mongoose';
 const MessageSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Contacto',
+    ref: 'User',
     required: true
   },
   destinatario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Contacto',
+    required: true
   },
   text: {
     type: String,

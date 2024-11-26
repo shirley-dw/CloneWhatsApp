@@ -77,17 +77,34 @@ export const registerController = async (req, res) => {
                 expiresIn: '1d'
             }
         )
-
-        const redirectUrl = `http://localhost:3000/api/auth/verify-email/` + validationToken
+        const redirectUrl = `http://localhost:3000/api/auth/verify-email/` + validationToken;
 
         const result = await trasporterEmail.sendMail({
             subject: 'Valida tu email',
             to: registerConfig.email.value,
             html: `
-                <h1>Mi primer email de verificacion</h1>
-                <p>Para validar tu email da click <a href='${redirectUrl}'>aqui</a></p>
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <div style="text-align: center; padding: 20px; background-color: #f0f0f0;">
+                        <h1 style="color: #4CAF50;">¡Verificación de Email!</h1>
+                    </div>
+                    <div style="padding: 20px; background-color: #fff;">
+                        <p>Hola,</p>
+                        <p>Gracias por registrarte en nuestra aplicación. Para completar tu registro y empezar a utilizar todos nuestros servicios, necesitamos que verifiques tu dirección de email. Esto nos ayuda a asegurarnos de que realmente eres tú.</p>
+                        <p style="text-align: center;">
+                            <a href='${redirectUrl}' style="display: inline-block; padding: 10px 20px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">
+                                Verificar Email
+                            </a>
+                        </p>
+                        <p>Si no te registraste en nuestra aplicación, puedes ignorar este email.</p>
+                        <p>Gracias,<br/>El equipo de WhatsApp Clone</p>
+                    </div>
+                    <div style="text-align: center; padding: 10px; background-color: #f0f0f0;">
+                        <p style="font-size: 12px; color: #777;">Este email fue enviado a ${registerConfig.email.value}. Si tienes alguna pregunta, <a href="mailto:whatsappvalidationtoken@gmail.com">contáctanos</a>.</p>
+                    </div>
+                </div>
             `
-        })
+        });
+
 
         console.log('Resultado del envío de email:', result);
 
@@ -155,7 +172,6 @@ export const verifyEmailController = async (req, res) => {
         res.sendStatus(500)
     }
 }
-
 // Función para iniciar sesión
 
 export const loginController = async (req, res) => {
@@ -235,12 +251,12 @@ export const forgotPasswordController = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-// Generar un token de restablecimiento con JWT
-        const reset_token = jwt.sign({ email: user.email }, 
+        // Generar un token de restablecimiento con JWT
+        const reset_token = jwt.sign({ email: user.email },
             ENVIROMENT.SECRET_KEY,
             { expiresIn: '1h' });
         const resetUrl = `${ENVIROMENT.FRONTEND_URL}/forgot-password/${reset_token}`;
-// Enviar el correo de restablecimiento y su URL de restablecimiento
+        // Enviar el correo de restablecimiento y su URL de restablecimiento
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -248,7 +264,7 @@ export const forgotPasswordController = async (req, res) => {
                 pass: ENVIROMENT.EMAIL_PASSWORD
             }
         });
-// Configurar el correo de restablecimiento con sus detalles
+        // Configurar el correo de restablecimiento con sus detalles
         const mailOptions = {
             from: ENVIROMENT.EMAIL_USER,
             to: user.email,
@@ -258,7 +274,7 @@ export const forgotPasswordController = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
         res.status(200).json({ message: 'Correo de recuperación de contraseña enviado' });
-    } 
+    }
     catch (error) {
         console.error('Error al solicitar el restablecimiento de contraseña:', error);
         res.status(500).json({ message: 'Error interno del servidor' });
@@ -271,8 +287,8 @@ export const recoveryPasswordController = async (req, res) => {
         const { password, reset_token } = req.body;
         console.log('Reset token:', reset_token);
         console.log('New password:', password);
- 
-        const decoded = jwt.verify(reset_token, ENVIROMENT.SECRET_KEY );
+
+        const decoded = jwt.verify(reset_token, ENVIROMENT.SECRET_KEY);
         console.log('Decoded token:', decoded);
 
         const user = await User.findOne({ email: decoded.email });
@@ -297,16 +313,17 @@ export const recoveryPasswordController = async (req, res) => {
 
 // Función para cerrar la sesión
 export const logoutController = async (req, res) => {
-  const { id} = req.body;
+    const { id } = req.body;
 
-  const user = await User.findById(id);
+    const user = await User.findById(id);
 
-  if (user) {
-    user.status = 'Desconectado';
-    user.lastActive = Date.now();
+    if (user) {
+        user.status = 'Desconectado';
+        user.lastActive = Date.now();
 
-    await user.save();
-  }
+        await user.save();
+    }
 
-  res.status(200).json({ message: 'Cierre de sesión exitoso' });
+    res.status(200).json({ message: 'Cierre de sesión exitoso' });
 };
+

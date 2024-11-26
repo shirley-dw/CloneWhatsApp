@@ -1,40 +1,39 @@
 // Importo librerías
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { CiCamera } from 'react-icons/ci';
-import { IoMdSearch } from 'react-icons/io';
 import { SiWhatsapp } from "react-icons/si";
-import { BsArrowRightCircleFill } from "react-icons/bs";
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { IoAdd } from "react-icons/io5";
+
 // Estilos
 import './ContactoHeader.css';
+
 // Importo componentes
 import FormBusquedaDeContactos from '../FormBusquedaDeContactos/ContactoForm.jsx';
+import CreateContact from '../CreateContact/CreateContact.jsx'; // Importa el componente CreateContact
 
 const ContactoHeader = ({ search, onSearchChange }) => {
-  const [searchVisible, setSearchVisible] = useState(false);/* Inicio estado en false */
+  const [searchVisible, setSearchVisible] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-// Función que abre el modal
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-// Función que cierra el modal
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
-// Funcion que cambia el estado
-  const handleSearchClick = () => {
-    if (searchVisible) {
-      setSearchVisible(false);
-    } else {
-      setSearchVisible(true);
-    }
+
+  // Función que abre el modal
+  const openModal = () => {
+    setModalIsOpen(true);
   };
-// Render
+
+  // Función que cierra el modal
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  // Función que alterna la búsqueda
+  const handleSearchClick = () => {
+    setSearchVisible(!searchVisible);
+  };
+
   return (
-    <div className={`contact-header ${searchVisible ? 'search-visible' : ''}`}>{/*  Si el estado es true, se ejecuta la clase search-visible */}
+    <div className={`contact-header ${searchVisible ? 'search-visible' : ''}`}>
       {searchVisible && (
-        /* Paso las props a FormBusquedaDeContactos */
         <FormBusquedaDeContactos
           search={search}
           onSearchChange={onSearchChange}
@@ -43,34 +42,33 @@ const ContactoHeader = ({ search, onSearchChange }) => {
       <SiWhatsapp className='logo-icons' />
       <div className='logo'>WhatsApp</div>
       <div className='icons'>
-        <CiCamera />
-        <IoMdSearch onClick={handleSearchClick} />
-        <BsThreeDotsVertical className='icons' onClick={openModal} />
-            </div>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          contentLabel="Search"
-          className="modal"
-          overlayClassName="overlay"
-        
-        >
-          <div className="modal-header">
-            <h2 className='title'>Menu</h2>
-            <button onClick={closeModal} className="close-button">X</button>
-          </div>
-          <div className='modal-body'></div>
-          <p className='subtitle'><BsArrowRightCircleFill  className='icons-arrow'/>Administracion de anuncios</p>
-          <p className='subtitle'><BsArrowRightCircleFill  className='icons-arrow'/>Nuevo grupo</p>
-          <p className='subtitle'> <BsArrowRightCircleFill  className='icons-arrow'/>Comunidades</p>
-          <p className='subtitle'> <BsArrowRightCircleFill  className='icons-arrow'/>Etiquetas</p>
-          <p className='subtitle'> <BsArrowRightCircleFill  className='icons-arrow'/>Dispositivos vinculados </p>
-          <p className='subtitle'><BsArrowRightCircleFill  className='icons-arrow'/>Mensajes destacados</p>
-          <p className='subtitle'> <BsArrowRightCircleFill  className='icons-arrow'/>Ajustes</p>
-        </Modal>
+        <IoAdd className='icons' onClick={openModal} />
+        <BsThreeDotsVertical className='icons' onClick={handleSearchClick} />
       </div>
- 
-  )
-}
+
+      {/* Modal para agregar contacto */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Agregar contacto"
+        className="modal"
+        overlayClassName="overlay"
+        ariaHideApp={false} // Permite que el modal funcione sin advertencias en desarrollo
+      >
+        <div className="modal-header">
+          <button onClick={closeModal} className="close-button">X</button>
+        </div>
+        {/* Incluye el componente CreateContact en el modal */}
+        <CreateContact
+
+          onContactCreated={(newContact) => {
+            console.log('Nuevo contacto creado:', newContact);
+            closeModal(); // Cierra el modal después de agregar un contacto
+          }}
+        />
+      </Modal>
+    </div>
+  );
+};
 
 export default ContactoHeader;

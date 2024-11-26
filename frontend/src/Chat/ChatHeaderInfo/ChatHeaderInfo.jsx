@@ -5,20 +5,23 @@ import './ChatHeaderInfo.css';
 import { ObtenerContactosById } from "../../Fetching/contactosFetching";
 import { useEffect, useState } from "react";
 
-
-
 const ChatHeaderInfo = () => {
   const { id } = useParams();
   const { state } = useLocation();
 
   const [contacto, setContacto] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const defaultImage = '/imagenes/user.png'; // Ruta de la imagen por defecto
+  const imagenes = state && state.thumbnail && state.thumbnail.startsWith("http")
+    ? state.thumbnail
+    : (state && state.thumbnail ? `/imagenes/${state.thumbnail}` : defaultImage);
 
   useEffect(() => {
-    ObtenerContactosById(id).then((contacto) => { setContacto(contacto); setLoading(false); });
-
-  }, []);
+    ObtenerContactosById(id).then((contacto) => {
+      setContacto(contacto);
+      setLoading(false);
+    });
+  }, [id]);
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -32,7 +35,7 @@ const ChatHeaderInfo = () => {
         </Link>
         {state && (
           <>
-            <img className="profile-pic" src={state.thumbnail} alt="Foto perfil" />
+            <img className="profile-pic" src={imagenes} alt="Foto perfil" />
             <div className="chat-header">
               <div className="profile-name">{state.name}</div>
               <div className="status-text">{state.status}</div>

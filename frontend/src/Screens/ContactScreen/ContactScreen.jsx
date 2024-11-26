@@ -6,6 +6,7 @@ import ContactoHeader from "../../Components/Contactos/ContactoHeader/ContactoHe
 import './ContactScreen.css';
 import { ObtenerContactos } from "../../Fetching/contactosFetching.js";
 
+
 const ContactScreen = () => {
     const [search, setSearch] = useState('');
     const [contactos, setContactos] = useState([]);
