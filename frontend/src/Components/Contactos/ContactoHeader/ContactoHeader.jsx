@@ -1,16 +1,16 @@
 // Importo librerías
 import React, { useState } from 'react';
-import Modal from 'react-modal';
-import { SiWhatsapp } from "react-icons/si";
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoAdd } from "react-icons/io5";
+import { SiWhatsapp } from "react-icons/si";
+import Modal from 'react-modal';
 
 // Estilos
 import './ContactoHeader.css';
 
 // Importo componentes
-import FormBusquedaDeContactos from '../FormBusquedaDeContactos/ContactoForm.jsx';
 import CreateContact from '../CreateContact/CreateContact.jsx'; // Importa el componente CreateContact
+import FormBusquedaDeContactos from '../FormBusquedaDeContactos/ContactoForm.jsx';
 
 const ContactoHeader = ({ search, onSearchChange }) => {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -62,7 +62,6 @@ const ContactoHeader = ({ search, onSearchChange }) => {
         <CreateContact
 
           onContactCreated={(newContact) => {
-            console.log('Nuevo contacto creado:', newContact);
             closeModal(); // Cierra el modal después de agregar un contacto
           }}
         />

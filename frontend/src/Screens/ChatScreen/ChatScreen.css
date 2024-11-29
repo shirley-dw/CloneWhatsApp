@@ -1,16 +1,19 @@
-
 .chat {
     display: flex;
     flex-direction: column;
 
-    overflow-y: scroll;
-    background: #ffffff; 
-    color: #f30000; 
+    background: #ffffff;
+
     height: 100vh;
 }
 
 .chat-screen {
     position: relative;
+    top: 100px;
+    height: 700px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+
 }
 
 .chat::-webkit-scrollbar {
@@ -18,17 +21,8 @@
     height: 10px;
 }
 
-.chat::-webkit-scrollbar-track {
-    background: #484848; 
-    border-radius: 10px;
-}
 
-.chat::-webkit-scrollbar-thumb {
-    background: #b8bbb8; 
-    border-radius: 10px;
-}
 
 .chat::-webkit-scrollbar-thumb:hover {
     background: #17c147;
 }
- 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Modal from "react-modal";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import "./Contacto.css";
+import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { actualizarContacto, eliminarContacto } from "../../../Fetching/contactosFetching.js";
+import "./Contacto.css";
 
 const ContactoCard = ({ id, name, thumbnail, status, text = "Sin mensajes", hour = "", onSelect }) => {
     const defaultImage = '/imagenes/user.png'; // Ruta de la imagen por defecto
@@ -24,11 +24,10 @@ const ContactoCard = ({ id, name, thumbnail, status, text = "Sin mensajes", hour
         e.stopPropagation(); // Detiene la propagación del evento al contenedor padre
         try {
             const updatedContact = await actualizarContacto(id, { name: newName });
-            console.log("Contacto actualizado:", updatedContact);
-            alert("Contacto actualizado correctamente.");
+            console.log('Actualizado correctamente');
             closeModal();
         } catch (error) {
-            alert("Error al actualizar el contacto.");
+            console.error(error);
         }
     };
 
@@ -37,11 +36,10 @@ const ContactoCard = ({ id, name, thumbnail, status, text = "Sin mensajes", hour
         e.stopPropagation(); // Detiene la propagación del evento al contenedor padre
         try {
             await eliminarContacto(id);
-            console.log("Contacto eliminado correctamente.");
-            alert("Contacto eliminado correctamente.");
+            console.log('Eliminado correctamente')
             closeModal();
         } catch (error) {
-            alert("Error al eliminar el contacto.");
+            console.error(error);
         }
     };
 

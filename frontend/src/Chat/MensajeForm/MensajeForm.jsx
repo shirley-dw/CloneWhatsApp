@@ -1,20 +1,29 @@
-import React, { useState } from "react";
-import { IoCameraOutline } from "react-icons/io5";
-import { MdAttachFile } from "react-icons/md";
-import { MdSend } from "react-icons/md";
+import mongoose from 'mongoose';
+import { useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
-import './MensajeForm.css';
+import { IoCameraOutline } from "react-icons/io5";
+import { MdAttachFile, MdSend } from "react-icons/md";
+import { useParams } from 'react-router-dom';
+import { ObtenerContactosById } from '../../Fetching/contactosFetching.js';
+import { ObtenerUsuarioById } from '../../Fetching/fetchingUser.js';
 import { isValidObjectId } from '../../utils/validate.id.js';
+import './MensajeForm.css';
 // Función para validar si un ObjectId es válido
 
 
 const MensajeForm = ({ setMensajes }) => {
     const [mensaje, setMensaje] = useState('');
+    const param = useParams();
+    const destinatarioId = param.id;
+
+    const sessionItem = sessionStorage.getItem('access-token');
+    const itemParse = JSON.parse(sessionItem);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const authorId = localStorage.getItem('userId'); // Obtén el ID del autor desde el localStorage
+        const authorId = new mongoose.Types.ObjectId(`${itemParse.userId}`);
+
         // Validación de los IDs antes de enviar
         if (!isValidObjectId(authorId)) {
             console.error("El ID del autor no es válido.");
@@ -26,13 +35,17 @@ const MensajeForm = ({ setMensajes }) => {
             return;
         }
 
+        const contact = await ObtenerContactosById(destinatarioId);
+
+        const user = await ObtenerUsuarioById(contact.usuario);
+
         const msjNuevo = {
-            author: authorId,
+            author: itemParse.userId,
             text: mensaje,
             status: 'visto',
             day: new Date().toLocaleDateString(),
             hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            destinatario: destinatarioId,
+            destinatario: user._id,
         };
 
         try {
@@ -40,7 +53,7 @@ const MensajeForm = ({ setMensajes }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Asegúrate de que el token esté presente
+                    'Authorization': `Bearer ${itemParse.token}`, // Asegúrate de que el token esté presente
                 },
                 body: JSON.stringify(msjNuevo),
             });
@@ -50,7 +63,7 @@ const MensajeForm = ({ setMensajes }) => {
             }
 
             const savedMessage = await response.json();
-            console.log("Mensaje guardado:", savedMessage);
+
             setMensajes(prevMensajes => [...prevMensajes, savedMessage]); // Actualiza el estado de mensajes
             setMensaje(''); // Resetea el input
         } catch (error) {
@@ -59,7 +72,7 @@ const MensajeForm = ({ setMensajes }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="form" id="message-form">
             <BsEmojiSmile className='icons-emoji' />
             <input
                 className='input-mensaje'

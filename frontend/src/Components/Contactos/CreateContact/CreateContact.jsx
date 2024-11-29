@@ -22,11 +22,12 @@ const CreateContact = ({ onContactCreated }) => {
         e.preventDefault();
 
         try {
+            const sessionItem = sessionStorage.getItem('access-token');
             const response = await fetch('http://localhost:3000/api/auth/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${JSON.parse(sessionItem).token}`,
                 },
                 body: JSON.stringify(formData),
             });
@@ -37,7 +38,7 @@ const CreateContact = ({ onContactCreated }) => {
                 if (result.data && result.data.errors) {
                     setErrors(result.data.errors);
                 } else {
-                    alert('Ocurrió un error al crear el contacto.');
+                    console.error('Error al crear el contacto:', result);
                 }
                 return;
             }
@@ -47,7 +48,6 @@ const CreateContact = ({ onContactCreated }) => {
             onContactCreated && onContactCreated(result.data.contactResult);
         } catch (error) {
             console.error('Error al crear el contacto:', error);
-            alert('Error interno del servidor.');
         }
     };
 

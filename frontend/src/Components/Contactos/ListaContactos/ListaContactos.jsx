@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ContactoCard from '../Contacto/ContactoCard.jsx';
-import { ObtenerContactos } from '../../../Fetching/contactosFetching';
+import { ObtenerContactosByUserId } from '../../../Fetching/contactosFetching';
 import './ListaContactos.css';
 
 const ListaContactos = ({ search }) => {
@@ -8,18 +8,12 @@ const ListaContactos = ({ search }) => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchContactos();
-
-        /* if (contactos) {
-            const filteredContactos = contactos.filter(contacto =>
-                contacto.name.toLowerCase().includes(search.toLowerCase())
-            );
-            setContactos(filteredContactos);
-        } */
-
-    }, []);
+    }, [contactos]);
     const fetchContactos = async () => {
+        const sessionItem = sessionStorage.getItem('access-token');
+        const id = JSON.parse(sessionItem).id;
         try {
-            const contactosFetch = await ObtenerContactos();
+            const contactosFetch = await ObtenerContactosByUserId(id);
             setContactos(contactosFetch);
         } catch (error) {
             console.error('Error al obtener los contactos:', error);

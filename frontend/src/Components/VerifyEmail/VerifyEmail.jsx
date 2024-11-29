@@ -9,29 +9,30 @@ const VerifyEmail = () => {
     const [isVerified, setIsVerified] = useState(null);
 
     useEffect(() => {
-        const verifyEmail = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/auth/verify-email/${validation_token}`, {
-                    method: 'GET'
-                });
+        verifyEmail();
+    }, []);
+    const verifyEmail = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/auth/verify-email/${validation_token}`, {
+                method: 'GET'
+            });
+            console.log(response);
 
-                if (response.ok) {
-                    setMessage('¡Email verificado exitosamente!');
-                    setIsVerified(true);
-                } else {
-                    setMessage('Hubo un problema al verificar tu email.');
-                    setIsVerified(false);
-                }
-            } catch (error) {
-                console.error('Error al verificar el email:', error);
-                setMessage('Hubo un error al verificar tu email.');
+            if (response.ok) {
+
+                setMessage('¡Email verificado exitosamente!');
+                setIsVerified(true);
+
+            } else {
+                setMessage('Hubo un problema al verificar tu email.');
                 setIsVerified(false);
             }
-        };
-
-        verifyEmail();
-    }, [token]);
-
+        } catch (error) {
+            console.error('Error al verificar el email:', error);
+            setMessage('Hubo un error al verificar tu email.');
+            setIsVerified(false);
+        }
+    };
     return (
         <div className='verify-email-container'>
             <div className='verification-header'>
@@ -41,14 +42,15 @@ const VerifyEmail = () => {
 
             <div className='verify-email-content'>
                 <h1>{message}</h1>
-                {isVerified === true && (
+                {isVerified === true ?
                     <Link to="/login" className="btn-primary">Iniciar Sesión</Link>
-                )}
-                {isVerified === false && (
-                    <p>Hubo un problema al verificar tu correo, vuelve a intentarlo.</p>
+                    :
+                    <>
+                        <p>Hubo un problema al verificar tu correo, vuelve a intentarlo.</p>
+                        <Link to="/register" className="btn-secondary">Registrarme nuevamente</Link>
+                    </>
+                }
 
-                )}
-                <Link to="/register" className="btn-secondary">Registrarme nuevamente</Link>
             </div>
         </div>
     );

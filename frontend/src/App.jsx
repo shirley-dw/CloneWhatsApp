@@ -7,6 +7,7 @@ import RecoveryPassword from './Components/RegisterInicio/RecoveryPassword/Recov
 import ContactScreen from './Screens/ContactScreen/ContactScreen';
 import ChatScreen from './Screens/ChatScreen/ChatScreen';
 import { InfoScreen } from './Screens';
+import VerifyEmail from './Components/VerifyEmail/VerifyEmail';
 
 
 
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verify-email/:validation_token" element={<VerifyEmail />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/forgot-password/:reset_token" element={<RecoveryPassword />} />
             <Route path="/inicio" element={<ContactScreen />} />

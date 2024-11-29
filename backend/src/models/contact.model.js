@@ -1,44 +1,51 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
-const ContactoSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    ref: 'Message',
-  },
-  text: {
-    type: String,
-  },
-  phone: {
-    type: String,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  fecha_creacion: {
-    type: Date,
-    default: Date.now
-  },
-  fecha_actualizacion: {
-    type: Date,
-    default: Date.now
-  },
-  status: {
-    type: String,
-    enum: ['En linea', 'Desconectado'],
-    default: 'En linea'
-  },
-  messageTime:
+const ContactoSchema = new mongoose.Schema(
   {
-    type: Date,
-    default: Date.now
+    name: {
+      type: String,
+      required: true,
+      ref: "Message",
+    },
+    text: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    fecha_creacion: {
+      type: Date,
+      default: Date.now,
+    },
+    fecha_actualizacion: {
+      type: Date,
+      default: Date.now,
+    },
+    status: {
+      type: String,
+      enum: ["En linea", "Desconectado"],
+      default: "En linea",
+    },
+    messageTime: {
+      type: Date,
+      default: Date.now,
+    },
+    usuario: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }
+    ],
+  },
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-});
+);
 
-const Contacto = mongoose.model('Contacto', ContactoSchema);
+const Contacto = mongoose.model("Contacto", ContactoSchema);
 
 export default Contacto;

@@ -1,8 +1,8 @@
-import React, { useState, } from 'react';
+import { useState, } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import useForm from '../../../hooks/useForm';
 import HeaderRegister from '../HeaderRegister/HeaderRegister';
 import IndicationLogin from '../IndicationLogin/IndicationLogin';
-import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -46,8 +46,8 @@ const Login = () => {
                     }));
                 }
             } else {
-                console.log('Inicio de sesión exitoso'); 
-                sessionStorage.setItem('access-token', data.data.access_token);  // Agrego manejo de sessionStorage 
+                console.log('Inicio de sesión exitoso');
+                sessionStorage.setItem('access-token', JSON.stringify({ token: data.data.token, userId: data.data.userId }));  // Agrego manejo de sessionStorage 
                 navigate('/inicio'); // Redirige a ContactScreen después del inicio de sesión exitoso
             }
         } catch (error) {
@@ -64,7 +64,7 @@ const Login = () => {
             <HeaderRegister />
             <div className='login-content'>
                 <div className='indication-register-container'>
-                   <IndicationLogin />
+                    <IndicationLogin />
                 </div>
                 <form onSubmit={handleLogin} className='login-form'>
                     <h1 className='login-title'>Inicia sesión</h1>
@@ -99,8 +99,8 @@ const Login = () => {
 
                     <Link to='/forgot-password' className='forgot-password-link'>Olvidé mi contraseña</Link>
                     <div className='register-div'>
-                    <span className='register-span'>¿No tienes una cuenta?</span>
-                    <Link to='/register' className='register-link'>Registrate aqui</Link>
+                        <span className='register-span'>¿No tienes una cuenta?</span>
+                        <Link to='/register' className='register-link'>Registrate aqui</Link>
                     </div>
                 </form>
             </div>

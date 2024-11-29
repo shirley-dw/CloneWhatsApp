@@ -5,6 +5,7 @@
     --ColorText: #fff;
     --ColorFooter: #111B21;
 }
+
 .form {
     display: flex;
     width: 100%;
@@ -26,7 +27,7 @@
     height: 40px;
     position: relative;
     left: 5%;
-    overflow: hidden; 
+    overflow: hidden;
     white-space: nowrap;
 }
 
@@ -216,13 +217,15 @@
         height: 20px;
         left: 20px;
     }
+
     .form .icons-input {
         width: 20px;
         height: 20px;
         left: 10px;
     }
-   
+
 }
+
 /* Phone */
 @media screen and (min-width: 320px) and (max-width: 500px) {
     form {
@@ -247,13 +250,13 @@
     .form .icons-emoji {
         width: 30px;
         height: 30px;
-    
+
     }
 
     .form .icons-input {
         display: none;
     }
-    
+
     .form .input-mensaje::placeholder {
         color: var(--ColorPlaceHolder);
         font-size: 12px;
