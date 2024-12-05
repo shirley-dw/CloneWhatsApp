@@ -16,6 +16,7 @@ import {
   getContactByIdController,
   updateContactController,
   getContactsByUserIdController,
+  createOrAssociateContactController
 } from "../controllers/contact.controller.js";
 // Middleware de controller de autenticación
 /* import { authenticateToken } from '../src/middlewares/auth.middleware.js'; */
@@ -39,6 +40,7 @@ router.post("/login", loginController);
 router.get("/verify-email/:validation_token", verifyEmailController);
 router.post("/forgot-password", forgotPasswordController);
 
+
 // Rutas de contactos
 router.post("/contacts", createContactController);
 router.get("/contacts", getAllContactsController);
@@ -46,6 +48,8 @@ router.get("/contacts/:id", getContactByIdController);
 router.put("/contacts/:id", updateContactController);
 router.get("/contacts/user/:id", getContactsByUserIdController);
 router.delete("/contacts/:id", deleteContactController);
+router.post('/contacts/user/:userId', createOrAssociateContactController);
+
 
 // Rutas de mensajes
 router.post("/messages", createMessageController);

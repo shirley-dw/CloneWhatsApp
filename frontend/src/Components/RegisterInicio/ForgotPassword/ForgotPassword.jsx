@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderRegister from '../HeaderRegister/HeaderRegister';
-import './ForgotPassword.css'; 
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [formState, setFormState] = useState({
@@ -12,6 +12,8 @@ const ForgotPassword = () => {
         email: '',
         general: ''
     });
+
+    const [successMessage, setSuccessMessage] = useState(''); // Estado para manejar el mensaje de éxito
 
     const handleChange = (e) => {
         setFormState({
@@ -47,7 +49,8 @@ const ForgotPassword = () => {
                     }));
                 }
             } else {
-                console.log('Solicitud de restablecimiento de contraseña enviada');
+                setSuccessMessage('Solicitud de restablecimiento de contraseña enviada'); // Establece el mensaje de éxito
+                setErrorsState({ email: '', general: '' }); // Reinicia los errores
             }
         } catch (error) {
             console.error('Error al solicitar el restablecimiento de contraseña:', error);
@@ -79,6 +82,7 @@ const ForgotPassword = () => {
                         {errorsState.email && <span className='error'>{errorsState.email}</span>}
                     </div>
                     <button type='submit' className='forgot-password-button'>Restablecer</button>
+                    {successMessage && <div className='success'>{successMessage}</div>} {/* Muestra el mensaje de éxito */}
                     {errorsState.general && <div className='error'>{errorsState.general}</div>}
                     <Link to='/login' className='back-to-login-link'>Iniciar sesión</Link>
                 </form>

@@ -1,6 +1,6 @@
 import { useParams, Link, useLocation } from "react-router-dom";
 import { SlArrowLeft } from "react-icons/sl";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { IoInformationCircle } from "react-icons/io5";
 import './ChatHeaderInfo.css';
 import { ObtenerContactosById } from "../../Fetching/contactosFetching";
 import { useEffect, useState } from "react";
@@ -37,15 +37,15 @@ const ChatHeaderInfo = () => {
           <>
             <img className="profile-pic" src={imagenes} alt="Foto perfil" />
             <div className="chat-header">
-              <div className="profile-name">{state.name}</div>
-              <div className="status-text">{state.status}</div>
+              <div className="profile-name-header">{state.name}</div>
+              <div className="status-text-header">{state.status}</div>
             </div>
           </>
         )}
       </div>
       <div className="icons">
         <Link to={`/info`}>
-          <BsThreeDotsVertical className="icons" />
+          <IoInformationCircle className="icons" />
         </Link>
       </div>
     </div>

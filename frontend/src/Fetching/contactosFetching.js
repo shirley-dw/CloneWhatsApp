@@ -52,6 +52,39 @@ export const ObtenerContactosByUserId = async (id) => {
   }
 };
 
+export const CreateContactForUser = async (data, userId) => {
+  try {
+    const sessionItem = sessionStorage.getItem("access-token");
+    if (!sessionItem) {
+      throw new Error('No se encontró el token de acceso en sessionStorage');
+    }
+
+    const parsedItem = JSON.parse(sessionItem);
+    if (!parsedItem.token) {
+      throw new Error('Token de acceso inválido');
+    }
+
+    const response = await fetch(`http://localhost:3000/api/auth/contacts/user/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${parsedItem.token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al crear el contacto");
+    }
+
+    const responseData = await response.json();
+    return responseData.message;
+  } catch (error) {
+    console.error("Error al crear el contacto:", error);
+    throw error;
+  }
+}
 
 export const actualizarContacto = async (id, updatedData) => {
   try {

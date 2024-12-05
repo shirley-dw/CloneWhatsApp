@@ -4,7 +4,7 @@ import './IndicationLogin.css'; // Importa los estilos
 const IndicationLogin = () => {
   return (
     <div className='indication-login'>
-      <h1 className='indication-title'>Inicia sesión en todos tus dispositivos</h1>
+      <h1 className='indication-title'>Disfruta WhatsApp</h1>
       <span className='indication-subtitle'>Recomendaciones para mantener tu cuenta segura</span>
       <ul className='indication-instructions'>
         <li>1. Utiliza una contraseña segura.</li>

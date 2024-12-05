@@ -1,16 +1,14 @@
 .contact-screens {
   font-family: 'Roboto', sans-serif;
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-
-  overflow: hidden;
   width: 100%;
   height: 100vh;
 }
+
 .separador {
   width: 100%;
   height: 1px;
   background-color: #ccc;
-  margin-top: 65px;
+  margin-left: 50px;
 }

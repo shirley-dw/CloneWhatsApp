@@ -34,6 +34,10 @@ const ContactoSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    lastMessage: {
+      type: String,
+      ref: "Message",
+    },
     usuario: [{
       type: Schema.Types.ObjectId,
       ref: "User",

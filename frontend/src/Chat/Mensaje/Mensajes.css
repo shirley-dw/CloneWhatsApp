@@ -1,9 +1,11 @@
-/* Style mensajes*/
+/* Mensajes.css */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+}
 
 .content {
   display: flex;
-  margin: 10px 0;
-
 }
 
 .mensaje {
@@ -11,17 +13,18 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin: 15px;
 }
 
 .texto {
   margin: 0;
   color: rgb(89, 89, 89);
-
 }
 
 .content-lower {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.8em;
   color: #999;
 }
@@ -29,8 +32,21 @@
 .timeSince {
   font-size: 0.8em;
   color: #999;
-  text-align: right;
 }
+
+.status-icon {
+  font-size: 1em;
+  margin-left: 5px;
+}
+
+.status-icon-gray {
+  color: gray;
+}
+
+.status-icon-blue {
+  color: rgb(71, 211, 155);
+}
+
 
 /* Media Queries */
 @media (max-width: 1200px) {

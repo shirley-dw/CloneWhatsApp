@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { ObtenerMensajesById } from "../../Fetching/mensajesFetching";
 import Mensajes from '../Mensaje/Mensajes';
-import MensajeForm from '../MensajeForm/MensajeForm';
+
 import './ListaMensajes.css';
 
 const ListaMensajes = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const params = useParams();
+  const actualizarMensajes = () => {
+    fetchMensajes(params.id);
+
+  }
 
   const loguedUserId = JSON.parse(sessionStorage.getItem('access-token'));
 
@@ -40,16 +44,16 @@ const ListaMensajes = () => {
   return (
     <div className="container-msj" id="message-container">
       {messages.length === 0 ? (
-        <div>No hay mensajes para mostrar.</div>
+        <div className="no-messages">No hay mensajes para mostrar.</div>
       ) : (
         messages.map((message) => (
           <React.Fragment key={`${message._id}`}>
 
-            <Mensajes mensaje={message} isRecievedMessage={loguedUserId.userId !== message.destinatario._id} />
+            <Mensajes mensaje={message} isRecievedMessage={loguedUserId.userId !== message.destinatario._id}
+              actualizarMensajes={actualizarMensajes} />
           </React.Fragment>
         ))
       )}
-      <MensajeForm setMensajes={setMessages} />
     </div>
   );
 };

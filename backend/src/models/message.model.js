@@ -18,7 +18,7 @@ const MessageSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["enviado", "recibido", "visto"],
+      enum: ["no visto", "enviado", "visto"],
       default: "enviado",
     },
     day: {

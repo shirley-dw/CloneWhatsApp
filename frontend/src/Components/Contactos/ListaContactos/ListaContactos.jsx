@@ -6,14 +6,33 @@ import './ListaContactos.css';
 const ListaContactos = ({ search }) => {
     const [contactos, setContactos] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         fetchContactos();
-    }, [contactos]);
+    }, [search]);
+
     const fetchContactos = async () => {
-        const sessionItem = sessionStorage.getItem('access-token');
-        const id = JSON.parse(sessionItem).id;
         try {
-            const contactosFetch = await ObtenerContactosByUserId(id);
+            const sessionItem = sessionStorage.getItem('access-token');
+            console.log('Valor de sessionItem:', sessionItem);
+
+            if (!sessionItem) {
+                throw new Error('No se encontró el token de acceso en sessionStorage');
+            }
+
+            const parsedItem = JSON.parse(sessionItem);
+            console.log('Valor de parsedItem:', parsedItem);
+
+            if (!parsedItem.userId) {
+                throw new Error('El token de acceso no contiene un ID de usuario válido');
+            }
+
+            const userId = parsedItem.userId; // Utiliza `userId` en lugar de `id`
+            console.log('ID del usuario:', userId);
+
+            const contactosFetch = await ObtenerContactosByUserId(userId);
+            console.log('Contactos obtenidos:', contactosFetch);
+
             setContactos(contactosFetch);
         } catch (error) {
             console.error('Error al obtener los contactos:', error);
@@ -36,7 +55,6 @@ const ListaContactos = ({ search }) => {
                     hour={contacto.hour}
                 />
             ))}
-
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CreateContact.css';
+import { CreateContactForUser } from '../../../Fetching/contactosFetching.js'; // Ajusta la ruta si es necesario
 
 const CreateContact = ({ onContactCreated }) => {
     const [formData, setFormData] = useState({
@@ -23,37 +24,22 @@ const CreateContact = ({ onContactCreated }) => {
 
         try {
             const sessionItem = sessionStorage.getItem('access-token');
-            const response = await fetch('http://localhost:3000/api/auth/contacts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${JSON.parse(sessionItem).token}`,
-                },
-                body: JSON.stringify(formData),
-            });
+            const parsedItem = JSON.parse(sessionItem);
+            const userId = parsedItem.userId;
 
-            const result = await response.json();
+            const message = await CreateContactForUser(formData, userId);
 
-            if (!response.ok) {
-                if (result.data && result.data.errors) {
-                    setErrors(result.data.errors);
-                } else {
-                    console.error('Error al crear el contacto:', result);
-                }
-                return;
-            }
-
-            setSuccessMessage('¡Contacto creado exitosamente!');
+            setSuccessMessage(message);
             setFormData({ name: '', email: '', phone: '', text: '' }); // Reiniciar formulario
-            onContactCreated && onContactCreated(result.data.contactResult);
+            onContactCreated && onContactCreated(); // Llama a la función de actualización después de crear el contacto
         } catch (error) {
-            console.error('Error al crear el contacto:', error);
+            console.error('Error al crear el contacto:', error.message);
+            setErrors({ general: error.message });
         }
     };
 
     return (
         <div className="create-contact">
-
             <h2>Crear nuevo contacto</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -113,6 +99,7 @@ const CreateContact = ({ onContactCreated }) => {
             </form>
 
             {successMessage && <p className="success">{successMessage}</p>}
+            {errors.general && <p className="error">{errors.general}</p>}
         </div>
     );
 };

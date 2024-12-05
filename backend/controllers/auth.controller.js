@@ -332,17 +332,29 @@ export const recoveryPasswordController = async (req, res) => {
 };
 
 // Función para cerrar la sesión
+
 export const logoutController = async (req, res) => {
   const { id } = req.body;
 
-  const user = await User.findById(id);
+  if (!id) {
+    return res.status(400).json({ message: "El ID de usuario es requerido" });
+  }
 
-  if (user) {
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
     user.status = "Desconectado";
     user.lastActive = Date.now();
 
     await user.save();
-  }
 
-  res.status(200).json({ message: "Cierre de sesión exitoso" });
+    res.status(200).json({ message: "Cierre de sesión exitoso" });
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error);
+    res.status(500).json({ message: "Error al cerrar sesión" });
+  }
 };

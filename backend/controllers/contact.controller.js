@@ -84,6 +84,7 @@ export const createContactController = async (req, res) => {
   }
 };
 
+
 // Obtener todos los contactos
 
 export const getAllContactsController = async (req, res) => {
@@ -118,8 +119,6 @@ export const getContactByIdController = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "ID inválido" });
     }
-
-    // CAMBIE EL ID, Ahora busca el contacto según el ID del usuario que tiene agendado.
     // Ignoro la lista de contactos que tiene este contacto
     const contacto = await Contacto.findById(id);
 
@@ -134,21 +133,75 @@ export const getContactByIdController = async (req, res) => {
   }
 };
 
+
 // Obtener contactos por el id del usuario
+
 export const getContactsByUserIdController = async (req, res) => {
   try {
     const { id } = req.params;
-    const contacto = await Contacto.findById(id);
-    const usuario = await User.findOne({ email: contacto.email });
+
+    // Validar que es un ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID inválido" });
+    }
+
+    // Busco usuario por su ID y populo sus contactos
+    const usuario = await User.findById(id).populate('contactos');
 
     if (!usuario) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: "Contactos del usuario no encontrados" });
     }
 
     res.status(200).json(usuario.contactos);
   } catch (error) {
-    console.error("Error al obtener el contacto:", error);
-    res.status(500).json({ message: "Error al obtener el contacto" });
+    console.error("Error al obtener los contactos del usuario:", error);
+    res.status(500).json({ message: "Error al obtener los contactos del usuario" });
+  }
+};
+
+
+// Crear o asociar un contacto al usuario
+export const createOrAssociateContactController = async (req, res) => {
+  try {
+    const { name, email, phone, text } = req.body;
+    const { userId } = req.params;
+
+    // Verifico que es un ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "ID de usuario inválido" });
+    }
+    // Busco el contacto en la base de datos por su email
+    let contacto = await Contacto.findOne({ email });
+
+    if (contacto) {
+      // Si el contacto existe, agregarlo a la lista de contactos del usuario
+      const usuario = await User.findById(userId);
+      if (!usuario.contactos.includes(contacto._id)) {
+        usuario.contactos.push(contacto._id);
+        await usuario.save();
+      }
+    } else {
+      // Crear un nuevo contacto
+      contacto = new Contacto({
+        name,
+        email,
+        phone,
+        text,
+        usuario: [userId],
+      });
+
+      await contacto.save();
+
+      // Agrego el contacto al usuario
+      const usuario = await User.findById(userId);
+      usuario.contactos.push(contacto._id);
+      await usuario.save();
+    }
+
+    res.status(200).json({ message: "Contacto creado o asociado con éxito", contacto });
+  } catch (error) {
+    console.error("Error al crear o asociar el contacto:", error);
+    res.status(500).json({ message: "Error al crear o asociar el contacto" });
   }
 };
 
@@ -209,6 +262,7 @@ export const deleteContactController = async (req, res) => {
         .setCode(404)
         .setMessage("Contacto no encontrado")
         .build();
+      console.log('❌ Contacto no encontrado');
       return res.status(404).json(response);
     }
 
@@ -220,6 +274,8 @@ export const deleteContactController = async (req, res) => {
       .setStatus(200)
       .setMessage("Contacto eliminado correctamente")
       .build();
+    console.log('✅ Contacto eliminado correctamente');
+
     return res.status(200).json(response);
   } catch (error) {
     console.error("Error al eliminar el contacto:", error);
@@ -228,6 +284,7 @@ export const deleteContactController = async (req, res) => {
       .setCode(500)
       .setMessage("Error al eliminar el contacto")
       .build();
+    console.log('❌ Error al eliminar el contacto');
     return res.status(500).json(response);
   }
 };

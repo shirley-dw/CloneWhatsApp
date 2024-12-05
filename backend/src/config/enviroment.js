@@ -11,6 +11,7 @@ const ENVIROMENT = {
   EMAIL_USER: process.env.EMAIL_USER || "",
   SECRET_KEY: process.env.SECRET_KEY || "",
   FRONTEND_URL: process.env.FRONTEND_URL || "",
+  MONGO_URL: process.env.MONGO_URL || "",
 };
 
 export default ENVIROMENT;

@@ -8,11 +8,9 @@ import { ObtenerContactosById } from '../../Fetching/contactosFetching.js';
 import { ObtenerUsuarioById } from '../../Fetching/fetchingUser.js';
 import { isValidObjectId } from '../../utils/validate.id.js';
 import './MensajeForm.css';
-// Función para validar si un ObjectId es válido
-
 
 const MensajeForm = ({ setMensajes }) => {
-    const [mensaje, setMensaje] = useState('');
+    const [message, setMessage] = useState('');
     const param = useParams();
     const destinatarioId = param.id;
 
@@ -41,7 +39,7 @@ const MensajeForm = ({ setMensajes }) => {
 
         const msjNuevo = {
             author: itemParse.userId,
-            text: mensaje,
+            text: message,
             status: 'visto',
             day: new Date().toLocaleDateString(),
             hour: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -53,7 +51,7 @@ const MensajeForm = ({ setMensajes }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${itemParse.token}`, // Asegúrate de que el token esté presente
+                    'Authorization': `Bearer ${itemParse.token}`,
                 },
                 body: JSON.stringify(msjNuevo),
             });
@@ -64,8 +62,8 @@ const MensajeForm = ({ setMensajes }) => {
 
             const savedMessage = await response.json();
 
-            setMensajes(prevMensajes => [...prevMensajes, savedMessage]); // Actualiza el estado de mensajes
-            setMensaje(''); // Resetea el input
+            setMensajes(prevMensajes => [...prevMensajes, savedMessage]);
+            setMessage(''); // Resetea el input
         } catch (error) {
             console.error("Error al enviar el mensaje:", error);
         }
@@ -79,8 +77,8 @@ const MensajeForm = ({ setMensajes }) => {
                 type='text'
                 name='nuevomensaje'
                 placeholder='Escribe un mensaje'
-                value={mensaje}
-                onChange={(e) => setMensaje(e.target.value)} // Actualiza el estado del mensaje
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 required={true}
             />
             <IoCameraOutline className='icons-input' />

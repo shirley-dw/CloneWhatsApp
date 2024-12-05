@@ -56,7 +56,7 @@ const ContactoCard = ({ id, name, thumbnail, status, text = "Sin mensajes", hour
     return (
         <div className="contacto" onClick={handleSelectContacto}>
             <div key={id} className="contact-item">
-                <img src={imagenes} alt={name} className="img" />
+                <img src={imagenes} alt={name} className="img-profile" />
                 <div className="dato">
                     <p className="name-card">
                         {name}

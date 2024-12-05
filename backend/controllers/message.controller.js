@@ -114,6 +114,8 @@ export const getMessageByIdController = async (req, res) => {
     res.status(500).json({ message: "Error al obtener los mensajes" });
   }
 };
+
+
 // Actualizar un mensaje por ID
 export const updateMessageController = async (req, res) => {
   try {

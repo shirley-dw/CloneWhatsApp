@@ -19,16 +19,12 @@
 
 // export default mongoose;
 
-import mongoose from "mongoose";
-
-const MONGO_URL = "mongodb://localhost:27017/CLONE-WHATSAPP";
+import mongoose from 'mongoose';
+import ENVIROMENT from './enviroment.js';
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(ENVIROMENT.MONGO_URL);
 
     console.log("✅ Conexión exitosa a MongoDB");
 
@@ -51,3 +47,4 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+
