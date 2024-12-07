@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
-body {
-    font-family: 'Roboto', sans-serif;
-}
 
 .contacto {
     text-decoration: none;
@@ -94,7 +91,7 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 400px;
-    z-index: 1000;
+    z-index: 3000;
 }
 
 .modal h2 {
@@ -236,4 +233,34 @@ body {
     .contact-item .ultimo-mensaje {
         font-size: 12px;
     }
+}
+
+@media screen and (min-width:400px) and (max-width:500px) {
+    .contact-item {
+        height: 60px;
+    }
+}
+
+@media screen and (min-width:280px) and (max-width:400px) {
+    .contact-item {
+        height: 60px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name {
+        font-size: 12px;
+    }
+
+    .contact-item .time {
+        font-size: 10px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+
 }

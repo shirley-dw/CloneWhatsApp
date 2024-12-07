@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './CreateContact.css';
 import { CreateContactForUser } from '../../../Fetching/contactosFetching.js'; // Ajusta la ruta si es necesario
-
+import useModal from '../../../hooks/useModal.js';
 const CreateContact = ({ onContactCreated }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -40,8 +40,9 @@ const CreateContact = ({ onContactCreated }) => {
 
     return (
         <div className="create-contact">
+
             <h2>Crear nuevo contacto</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='form-modal-create-contact'>
                 <div className="form-group">
                     <label htmlFor="name">Nombre</label>
                     <input

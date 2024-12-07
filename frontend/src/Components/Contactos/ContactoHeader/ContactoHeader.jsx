@@ -16,7 +16,7 @@ const ContactoHeader = ({ search, onSearchChange, onContactUpdated }) => {
       <div className='logo'>WhatsApp</div>
       <div className='icons'>
         <button className='btn-agendar' onClick={openModal}>
-          <img src="./imagenes/agregar-usuario.png" alt="" className='add-user' /> Agendar
+          <img src="./imagenes/agregar-usuario.png" alt="" className='add-user' /> <p>Agendar</p>
         </button>
       </div>
 

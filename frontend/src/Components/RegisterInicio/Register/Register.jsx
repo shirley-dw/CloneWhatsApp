@@ -3,7 +3,7 @@ import useForm from '../../../hooks/useForm.js';
 import { useNavigate } from 'react-router-dom';
 import HeaderRegister from '../HeaderRegister/HeaderRegister.jsx';
 import IndicationRegister from '../IndicationRegister/IndicationRegister.jsx';
-import './Register.css'; 
+import './Register.css';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Register = () => {
     // Manejo de eventos del formulario para el registro
     const handleRegister = async (event) => {
         event.preventDefault();
-    
+
         try {
             const responseHTTP = await fetch('http://localhost:3000/api/auth/register', {
                 method: 'POST',
@@ -35,13 +35,13 @@ const Register = () => {
                 },
                 body: JSON.stringify(formState)
             });
-    
+
             console.log('Respuesta HTTP:', responseHTTP);
-    
+
             const data = await responseHTTP.json();
-    
+
             console.log('Datos recibidos:', data);
-    
+
             if (!responseHTTP.ok) {
                 // Manejo de errores específicos de campos
                 if (data.errors) {
@@ -68,7 +68,7 @@ const Register = () => {
             }));
         }
     };
-    
+
     return (
         <div className='register-container'>
             <HeaderRegister />
@@ -78,9 +78,9 @@ const Register = () => {
                 </div>
                 <form onSubmit={handleRegister} className='register-form'>
                     <h1 className='register-title'>Registrate en WhatsApp Web</h1>
-                    <div className='form-group'>
+                    <div className='form-group-register'>
                         <label className='register-label' htmlFor='name'>Ingresa tu nombre:</label>
-                        <input 
+                        <input
                             name='name'
                             id='name'
                             placeholder='Nombre completo'
@@ -91,7 +91,7 @@ const Register = () => {
                         />
                         {errorsState.name && <span className='error'>{errorsState.name}</span>}
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group-register'>
                         <label className='register-label' htmlFor='email'>Ingresa tu email:</label>
                         <input
                             name='email'
@@ -104,7 +104,7 @@ const Register = () => {
                         />
                         {errorsState.email && <span className='error'>{errorsState.email}</span>}
                     </div>
-                    <div className='form-group'>
+                    <div className='form-group-register'>
                         <label className='register-label' htmlFor='password'>Ingresa tu contraseña:</label>
                         <input
                             name='password'

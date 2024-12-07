@@ -184,32 +184,31 @@
   }
 }
 
-/* Phone */
-@media (max-width: 320px) {
+
+
+@media screen and (min-width:280px) and (max-width:400px) {
   .contact-header {
-    display: flex;
-    align-items: center;
-    font-size: 8px;
+    height: 50px;
+    width: 100%;
   }
 
-  .contact-header .icons {
-    font-size: 10px;
-    display: flex;
-    gap: 5px;
-
-  }
-
-  .contact-header .icons svg {
-    cursor: pointer;
-    font-size: 30px;
-    width: 30px;
-  }
-
-  .contact-header .logo-icons {
+  .logo {
     display: none;
   }
 
-  .contact-header .logo {
-    font-size: 20px;
+  .logo-icons {
+    display: none;
+  }
+
+  .btn-agendar p {
+    display: none;
+  }
+
+  .btn-agendar {
+    justify-content: space-between;
+  }
+
+  .modal {
+    width: 90%
   }
 }

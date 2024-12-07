@@ -70,7 +70,7 @@ const MensajeForm = ({ setMensajes }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form" id="message-form">
+        <form onSubmit={handleSubmit} className="message-form-chat" id="message-form">
             <BsEmojiSmile className='icons-emoji' />
             <input
                 className='input-mensaje'

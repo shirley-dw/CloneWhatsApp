@@ -1,35 +1,33 @@
 /* Style formulario de mensajes */
 
-.form {
+.message-form-chat {
     display: flex;
     width: 100%;
-    height: 10%;
+    height: 70px;
     background-color: #31363F;
-    align-items: center;
     padding: 10px;
     box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-
+    align-items: center;
 }
 
-.form .input-mensaje {
+.input-mensaje {
     color: #000000;
     font-size: 16px;
-    padding: 10px;
     border: none;
     border-radius: 20px;
     width: 100%;
-    height: 40px;
+    height: 30px;
     overflow: hidden;
-    white-space: nowrap;
     outline: none;
-    margin-right: 10px;
+    background-color: #31363F;
+
 }
 
-.form .input-mensaje::placeholder {
+.input-mensaje::placeholder {
     color: #999999;
 }
 
-.form .btn-send {
+.btn-send {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,17 +38,16 @@
     border: none;
     color: rgb(255, 255, 255);
     cursor: pointer;
-    margin-left: 10px;
 
 }
 
-.form .btn-send:hover {
+.message-form-chat .btn-send:hover {
     background-color: #1CBB4A;
 
 }
 
-.form .icons-input,
-.form .icons-emoji {
+.message-form-chat .icons-input,
+.message-form-chat .icons-emoji {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -60,19 +57,24 @@
     margin-right: 10px;
 }
 
-.form .icons-input svg,
-.form .icons-emoji svg {
+
+
+.message-form-chat .icons-input svg,
+.message-form-chat .icons-emoji svg {
     cursor: pointer;
 }
 
-/* Media Queries */
 
 /* Desktop */
-@media (max-width: 2000px) {
-    .form {
-        height: 10%;
+@media (max-width: 2000px) {}
+
+
+@media screen and (min-width: 1020px) and (max-width: 2000px) {
+    .message-form-chat {
+        height: 70px;
         position: fixed;
         bottom: 0;
+        justify-content: space-between;
 
     }
 
@@ -94,151 +96,137 @@
     }
 
     .icons-input svg {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
 
     }
 }
 
-
-@media (max-width: 1200px) {
-    .form {
-        height: 10%;
-        position: fixed;
-        bottom: 0;
-    }
-
-    .form .input-mensaje {
-        width: 75%;
-        height: 20px;
-    }
-
-    .form .btn-send {
-        width: 30px;
-        height: 30px;
-    }
-
-    .form .icons-emoji svg {
-        width: 20px;
-        height: 20px;
-
-    }
-
-    .form .icons-input svg {
-        width: 20px;
-        height: 20px;
-        left: 20px;
-    }
-
-    .form .icons-input {
-        margin-left: 10px;
-    }
-
+/* 
+.message-form-chat .input-mensaje {
+    width: 75%;
+    height: 20px;
+    font-size: 12px;
 }
 
-/* Tablet */
-@media (max-width: 992px) {
-    .form {
+.message-form-chat .btn-send {
+    width: 25px;
+    height: 25px;
+    left: 92%;
+}
+
+.message-form-chat .icons-emoji {
+    width: 15px;
+    height: 15px;
+}
+
+.message-form-chat .icons-input {
+    width: 15px;
+    height: 15px;
+}
+ */
+
+@media screen and (min-width: 700px) and (max-width: 1020px) {
+    .message-form-chat {
         width: 100%;
-        height: 10%;
+        height: 70px;
         position: fixed;
         bottom: 0;
+        justify-content: space-between;
+
     }
 
-    .form .input-mensaje {
+    .input-mensaje {
         width: 75%;
-        height: 35px;
+        height: 20px;
+        font-size: 12px;
     }
 
-    .form .btn-send {
-        width: 30px;
-        height: 30px;
-        left: 95%;
-    }
-
-    .form .icons-emoji {
+    .btn-send {
         width: 25px;
         height: 25px;
-        margin-right: 20px;
+        left: 92%;
     }
 
-    .form .icons-input {
-        width: 20px;
-        height: 20px;
-        left: 6%;
+    .icons-emoji {
+        width: 15px;
+        height: 15px;
+    }
+
+    .icons-input {
+        display: none;
     }
 
 }
 
 /* Mobile horizontal*/
-@media (max-width: 768px) {
-    .form {
+@media screen and (min-width: 400px) and (max-width: 700px) {
+    .message-form-chat {
         width: 100%;
-        height: 10%;
+        height: 12%;
         position: fixed;
         bottom: 0;
+        justify-content: space-between;
+
     }
 
-    .form .input-mensaje {
+    .message-form-chat .input-mensaje {
         width: 75%;
-        height: 35px;
-        left: 5px;
+        height: 20px;
         font-size: 12px;
     }
 
-    .form .btn-send {
-        width: 30px;
-        height: 30px;
+    .message-form-chat .btn-send {
+        width: 25px;
+        height: 25px;
         left: 92%;
     }
 
-    .form .icons-emoji {
-        width: 20px;
-        height: 20px;
-        left: 20px;
+    .message-form-chat .icons-emoji {
+        width: 15px;
+        height: 15px;
     }
 
-    .form .icons-input {
-        width: 20px;
-        height: 20px;
-        left: 10px;
+    .message-form-chat .icons-input {
+        width: 15px;
+        height: 15px;
     }
+
 
 }
 
-/* Phone */
-@media screen and (min-width: 320px) and (max-width: 500px) {
-    form {
-        width: 100vh;
-        height: 10%;
+
+@media screen and (min-width: 280px) and (max-width: 400px) {
+    .message-form-chat {
+        justify-content: space-between;
         position: fixed;
         bottom: 0;
+        height: 10%;
     }
 
-    .form .input-mensaje {
-        width: 65%;
-        height: 25px;
-        left: 5px;
+    .message-form-chat .input-mensaje {
+        height: 13px;
+        width: 100%;
+        gap: 2px;
     }
 
-    .form .btn-send {
-        width: 40px;
-        height: 40px;
-        left: 85%;
-    }
-
-    .form .icons-emoji {
-        width: 30px;
-        height: 30px;
+    .message-form-chat .btn-send {
+        width: 20px;
+        height: 20px;
+        margin: 0;
 
     }
 
-    .form .icons-input {
+    .message-form-chat .icons-emoji {
+        display: none
+    }
+
+    .message-form-chat .icons-input {
         display: none;
     }
 
-    .form .input-mensaje::placeholder {
-        color: var(--ColorPlaceHolder);
+    .message-form-chat .input-mensaje::placeholder {
+        color: gray;
         font-size: 12px;
     }
 }

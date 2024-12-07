@@ -63,7 +63,7 @@ const Login = () => {
         <div className='login-container'>
             <HeaderRegister />
             <div className='login-content'>
-                <div className='indication-register-container'>
+                <div className='indication-login-container'>
                     <IndicationLogin />
                 </div>
                 <form onSubmit={handleLogin} className='login-form'>

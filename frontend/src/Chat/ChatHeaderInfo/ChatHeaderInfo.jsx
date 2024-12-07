@@ -31,7 +31,7 @@ const ChatHeaderInfo = () => {
     <div className="chat-header-info">
       <div className="contact">
         <Link to={"/inicio"}>
-          <SlArrowLeft className="arrow" />
+          <SlArrowLeft className="arrow-header" />
         </Link>
         {state && (
           <>
