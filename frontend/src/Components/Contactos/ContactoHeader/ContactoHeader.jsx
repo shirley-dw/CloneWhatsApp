@@ -12,9 +12,9 @@ const ContactoHeader = ({ search, onSearchChange, onContactUpdated }) => {
 
   return (
     <div className="contact-header">
-      <SiWhatsapp className='logo-icons' />
-      <div className='logo'>WhatsApp</div>
-      <div className='icons'>
+      <SiWhatsapp className='logo-icons-header' />
+      <div className='logo-whatsapp'>WhatsApp</div>
+      <div className='icons-header-contacts'>
         <button className='btn-agendar' onClick={openModal}>
           <img src="./imagenes/agregar-usuario.png" alt="" className='add-user' /> <p>Agendar</p>
         </button>

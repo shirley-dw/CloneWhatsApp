@@ -16,23 +16,19 @@
 
 }
 
-.contact-header .logo {
+.contact-header .logo-whatsapp {
   font-weight: bold;
   font-size: 25px;
   color: #1CBB4A;
 }
 
-.contact-header .logo-icons {
+.contact-header .logo-icons-header {
   font-weight: bold;
   font-size: 30px;
   color: #1CBB4A;
 }
 
-.contact-header .icons svg {
-  cursor: pointer;
-  font-size: 30px;
-  width: 30px;
-}
+
 
 .contact-header .icons svg:hover {
   color: #4fd24d;
@@ -59,12 +55,7 @@
   margin-right: 5px;
 }
 
-.contact-header.search-visible .form-busqueda {
-  display: flex;
-  width: 92%;
-  margin-top: 0.5rem;
-  margin-right: 0;
-}
+
 
 .modal {
   transform: translate(-50%, -50%);
@@ -136,26 +127,47 @@
 
 /* Media Queries */
 
-/* Desktop */
-@media (max-width: 1200px) {
+@media screen and (min-width:720px) and (max-width:1200px) {
   .contact-header {
-    display: flex;
-    align-items: center;
+    width: 100%;
+    gap: 250px;
+    height: 70px;
+    justify-content: space-around;
+  }
+
+  .contact-header .icons {
     font-size: 10px;
-  }
-}
-
-/* Tablet */
-@media (max-width: 992px) {
-  .contact-header {
     display: flex;
-    align-items: center;
-    font-size: 8px;
+    gap: 5px;
+  }
+
+  .logo-whatsapp {
+    font-size: 25px;
   }
 }
 
-/* Horizontal */
-@media (max-width: 768px) {
+@media screen and (min-width:800px) and (max-width:900px) {
+  .contact-header {
+    width: 100%;
+    height: 70px;
+  }
+
+  .contact-header .icons {
+    font-size: 10px;
+    display: flex;
+
+  }
+
+  .logo-whatsapp {
+    font-size: 25px;
+  }
+
+  .btn-agendar {
+    margin-left: -70px;
+  }
+}
+
+@media screen and (min-width:500px) and (max-width:720px) {
   .contact-header {
     display: flex;
     align-items: center;
@@ -186,26 +198,34 @@
 
 
 
-@media screen and (min-width:280px) and (max-width:400px) {
+@media screen and (min-width:280px) and (max-width:500px) {
   .contact-header {
     height: 50px;
-    width: 100%;
+    width: 100vw;
+    justify-content: space-between;
   }
 
-  .logo {
-    display: none;
-  }
-
-  .logo-icons {
-    display: none;
+  .contact-header .logo-whatsapp {
+    font-size: 15px;
+    margin-left: -30px;
   }
 
   .btn-agendar p {
     display: none;
   }
 
-  .btn-agendar {
-    justify-content: space-between;
+  .logo-icons-header {
+    display: none;
+  }
+
+
+  .contact-header .btn-agendar {
+    padding: 5px;
+    margin-left: 50px;
+  }
+
+  .add-user {
+    width: 15px;
   }
 
   .modal {

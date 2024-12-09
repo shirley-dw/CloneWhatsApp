@@ -74,10 +74,10 @@ const NavBar = () => {
                 </>
             )}
             <div className="nav-icons">
-                <div className="access"><BsFillChatLeftTextFill className='icons' /></div>
-                <div className="access"><BsTelephone className='icons' /></div>
-                <div className="access"><RiChatSmile3Line className='icons' /></div>
-                <div className="access"><LiaToolsSolid className='icons' /></div>
+                <div className="access-nav-icons"><BsFillChatLeftTextFill className='icons-nav-bar' /></div>
+                <div className="access-nav-icons"><BsTelephone className='icons-nav-bar' /></div>
+                <div className="access-nav-icons"><RiChatSmile3Line className='icons-nav-bar' /></div>
+                <div className="access-nav-icons"><LiaToolsSolid className='icons-nav-bar' /></div>
             </div>
         </div>
     );

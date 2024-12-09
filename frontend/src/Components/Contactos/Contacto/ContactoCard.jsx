@@ -57,19 +57,22 @@ const ContactoCard = ({ id, name, thumbnail, status, text = "Sin mensajes", hour
         <div className="contacto" onClick={handleSelectContacto}>
             <div key={id} className="contact-item">
                 <img src={imagenes} alt={name} className="img-profile" />
-                <div className="dato">
+                <div className="dato-card">
                     <p className="name-card">
                         {name}
                     </p>
                     <div className="ultimo-mensaje">{text}</div>
-                    <div className="status">{status}</div>
+                    <div className="status-card">{status}</div>
                 </div>
-                <div className="time">{hour}</div>
+                <div className="time-card">{hour}</div>
             </div>
-            <BsThreeDotsVertical
-                className="options-icon"
-                onClick={openModal} // Abrir el modal sin interferir con el contenedor
-            />
+            <div className="options-container-contacto">
+
+                <BsThreeDotsVertical
+                    className="options-icon-contacts"
+                    onClick={openModal} // Abrir el modal sin interferir con el contenedor
+                />
+            </div>
 
             {/* Modal para opciones */}
             <Modal

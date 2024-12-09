@@ -27,7 +27,7 @@
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.contact-item .dato {
+.contact-item .dato-card {
     flex: 1;
     overflow: hidden;
 }
@@ -39,7 +39,7 @@
     font-weight: 700;
 }
 
-.contact-item .time {
+.contact-item .time-card {
     margin-right: 10px;
     font-size: 14px;
     color: #999999;
@@ -53,7 +53,7 @@
     overflow: hidden;
 }
 
-.status {
+.status-card {
     font-size: 10px;
     color: #666666;
 
@@ -63,12 +63,9 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-
 }
 
-
-
-.options-icon {
+.options-icon-contacts {
     font-size: 20px;
     color: #373837;
     cursor: pointer;
@@ -169,81 +166,30 @@
 
 /* Media Queries */
 
-/* Desktop / TV / Laptop */
-@media (max-width: 1200px) {
-    .contact-item {
-        height: 80px;
+@media screen and (min-width:1020px) and (max-width:2000px) {
+    .contacto {
+        width: 96%;
     }
 
-    .contact-item .name {
-        font-size: 16px;
-        margin-bottom: 5px;
-        color: #1a1a1a;
-    }
-
-    .contact-item .time {
-        font-size: 12px;
-        color: #999999;
-    }
-}
-
-/* Tablet */
-@media (max-width: 992px) {
-    .contact-item {
-        height: 80px;
-        padding: 10px;
-        gap: 5px;
-    }
-
-    .contact-item .img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .contact-item .name {
-        font-size: 15px;
-    }
-
-    .contact-item .ultimo-mensaje {
-        font-size: 13px;
-    }
-}
-
-/* Phone */
-@media (max-width: 576px) {
     .contact-item {
         height: 70px;
-        padding: 8px;
     }
 
-    .contact-item .img {
-        width: 35px;
-        height: 35px;
-    }
+    .options-container-contacto {
+        display: flex;
+        margin: 0;
 
-    .contact-item .name {
-        font-size: 14px;
-        margin-top: 0;
-    }
-
-    .contact-item .time {
-        font-size: 10px;
-    }
-
-    .contact-item .ultimo-mensaje {
-        font-size: 12px;
     }
 }
 
-@media screen and (min-width:400px) and (max-width:500px) {
-    .contact-item {
-        height: 60px;
-    }
-}
 
-@media screen and (min-width:280px) and (max-width:400px) {
+@media screen and (min-width:900px) and (max-width:1020px) {
+    .contacto {
+        width: 90%;
+    }
+
     .contact-item {
-        height: 60px;
+        height: 70px;
     }
 
     .contact-item .img {
@@ -251,8 +197,221 @@
         height: 30px;
     }
 
-    .contact-item .name {
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
         font-size: 12px;
+    }
+
+    .options-container-contacto {
+        display: flex;
+        margin: 0;
+    }
+}
+
+
+@media screen and (min-width:800px) and (max-width:900px) {
+    .contacto {
+        width: 90%;
+    }
+
+    .contact-item {
+        height: 70px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+
+    .options-container-contacto {
+        display: flex;
+        margin-left: 30px;
+        margin: 0;
+    }
+}
+
+
+
+
+@media screen and (min-width:700px) and (max-width:800px) {
+    .contacto {
+        width: 95%;
+    }
+
+    .contact-item {
+        height: 70px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+
+    .options-container-contacto {
+        display: flex;
+        margin-right: 30px;
+
+    }
+}
+
+@media screen and (min-width:600px) and (max-width:700px) {
+    .contacto {
+        width: 90%;
+    }
+
+    .contact-item {
+        height: 70px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+
+    .options-container-contacto {
+        display: flex;
+        justify-content: end;
+        margin-right: 5px;
+
+    }
+}
+
+
+@media screen and (min-width:500px) and (max-width:600px) {
+    .contacto {
+        width: 97%;
+    }
+
+    .contact-item {
+        height: 70px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+
+    .options-container-contacto {
+        display: flex;
+        justify-content: end;
+        margin-right: 30px;
+
+    }
+}
+
+
+@media screen and (min-width:400px) and (max-width:500px) {
+    .contacto {
+        width: 90%;
+    }
+
+    .contact-item {
+        height: 70px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .contact-item .time-card {
+        font-size: 15px;
+    }
+
+    .contact-item .ultimo-mensaje {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width:280px) and (max-width:400px) {
+    .contacto {
+        width: 90%;
+    }
+
+    .contact-item {
+        height: 50px;
+    }
+
+    .contact-item .img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact-item .name-card {
+        font-size: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .contact-item .time {
